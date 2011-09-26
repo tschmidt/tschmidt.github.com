@@ -216,11 +216,11 @@ a:link, a:visited {
   font-weight: normal;
   text-decoration: none;
   outline: none;
-  color: #fc6b35;
+  color: #1FB6DA;
 }
 
 a:hover {
-  color: #ba3b0d;
+  color: #3B7799;
 }
 
 cite {
@@ -239,9 +239,9 @@ strong {
   max-width: 980px;
   margin: 0 auto 20px auto;
   font-size: 1.3em;
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
      -webkit-box-shadow: 0 2px 3px rgba(78, 68, 60, 0.3);
         -moz-box-shadow: 0 2px 3px rgba(78, 68, 60, 0.3);
              box-shadow: 0 2px 3px rgba(78, 68, 60, 0.3);;
@@ -433,7 +433,7 @@ h1.page-title {
   position: relative;
   margin: 0 0 2.8em 0;
   padding: 0 0 1em 20%;
-  border-bottom: 4px double rgba(78, 68, 60, 0.15);
+  border-bottom: 1px dashed rgba(60, 60, 60, 0.15);
 }
 
 #main article:last-child {
@@ -442,7 +442,7 @@ h1.page-title {
 
 #main article:first-child {
   padding: 2.8em 0 1em 20%;
-  border-top: 4px double rgba(78, 68, 60, 0.15);
+  border-top: 1px dashed rgba(60, 60, 60, 0.15);
 }
 
 #main article aside {
