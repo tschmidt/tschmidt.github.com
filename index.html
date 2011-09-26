@@ -1,0 +1,24 @@
+---
+layout: default
+title: Schmidt Happens
+---
+
+{% for post in site.posts %}
+<article>
+  <header>
+    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+  </header>
+  <aside>
+    <ul>
+      <li class="date"><strong>{{ post.date | date_to_string }}</strong></li>
+      <li class="tags">
+        {{ post.tags | sort | array_to_sentence_string }}
+      </li>
+    </ul>
+  </aside>
+  <p>
+    {{ post.blurb }}<br>
+    <a href="{{ post.url }}">Read More...</a>
+  </p>
+</article>
+{% endfor %}

@@ -1,0 +1,21 @@
+---
+layout: default
+title: A New Beginning
+tags:
+  ["articles", "jekyll", "github"]
+blurb: Welcome to the new (and hopefully improved) SchmidtHappens. I have been thinking long and hard on how to move forward with my blog and while Tumblr was great for a while I kept hitting walls. I found myself spending less time writing and more time trying to figure out how I could do all the things that I wanted to do. Finally, I made the decision to leave Tumblr and try a new approach.
+published: false
+---
+
+<article>
+  <header>
+    <h2>{{ page.title }}</h2>
+  </header>
+  <aside>
+    <ul>
+      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
+      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
+    </ul>
+  </aside>
+  <p>{{ page.blurb }}</p>
+</article>
