@@ -468,6 +468,7 @@ h1.page-title {
 
 #main article aside ul {
   margin: 0;
+  padding: 0;
 }
 
 #main article aside ul li {
@@ -485,7 +486,7 @@ article aside ul li h4 {
 
 article p,
 article ul {
-  margin: 0 40px 1.6em 0;
+  margin: 0 0 1.6em 0;
 }
 article em {
   font-style: italic;
