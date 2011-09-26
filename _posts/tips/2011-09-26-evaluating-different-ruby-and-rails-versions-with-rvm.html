@@ -1,0 +1,125 @@
+---
+layout: default
+title: Evaluating Different Ruby and Rails Versions with RVM
+tags:
+  ["tips", "rvm", "ruby", "rails"]
+blurb: If you've ever had to test an application that you are building with different versions of Ruby or Rails then you know how frustrating it can be. <a href="http://beginrescueend.com" target="_blank">RVM</a> aims to erase that frustration by making it incredibly easy to install multiple versions on the same development machine.
+published: true
+categories:
+  ["tips"]
+comments: true
+---
+
+<article>
+  <header>
+    <h1>{{ page.title }}</h1>
+  </header>
+  <aside>
+    <ul>
+      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
+      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
+    </ul>
+  </aside>
+  <p>{{ page.blurb }}</p>
+  <p>
+    The first thing that you will need to do is install RVM. To do this open
+    a terminal and enter in the following command (please note, you will need
+    to make sure you have git installed):
+  </p>
+  
+  {% highlight sh %}
+  bash < <(curl -s https://rvm.beginrescueend.com/install/rvm){% endhighlight %}
+  
+  <p>
+    Once the install finishes you will be instructed on how you can update your
+    .bash_profile file with a load path to the rvm executable. Once that is
+    done and the file has been saved you can simply type the follwoing into your
+    terminal window to reload your shell (you can also just close and re-open
+    your terminal window):
+  </p>
+  
+  {% highlight sh %}
+  source .bash_profile{% endhighlight %}
+  
+  <p>
+    Great, now that we've gotten that out of the way it's super simple to install
+    new Ruby versions. Say you want to install Ruby 1.9.2, all you need to do
+    now is type:
+  </p>
+  
+  {% highlight sh %}
+  rvm install 1.9.2{% endhighlight %}
+  
+  <p>
+    To use an installed Ruby use the following (substitute the version you want):
+  </p>
+  
+  {% highlight sh %}
+  rvm use 1.9.2{% endhighlight %}
+  
+  <p>
+    Wondering which Ruby versions are available for download?
+  </p>
+  
+  {% highlight sh %}
+  rvm list known{% endhighlight %}
+  
+  <p>
+    Want to know which you already have installed?
+  </p>
+  
+  {% highlight sh %}
+  rvm list{% endhighlight %}
+  
+  <h2>What About Rails?</h2>
+  
+  <p>
+    Now that you know how to install different Ruby versions we can talk about how
+    you can have different Rails environments. Let's say we have installed
+    Ruby 1.9.2 and we are currently using that version and we want to try out
+    Rails 3.1 without messing with any of our Rails 2.x applications. To do this
+    we need to create what RVM calls a gemset. This will create a separate 
+    container where we install gems for a particular purpose.
+  </p>
+  
+  {% highlight sh %}
+  rvm gemset create rails31{% endhighlight %}
+  
+  <p>
+    This will create a new gemset called "rails31". Now all we need to do is
+    switch into that gemset:
+  </p>
+  
+  {% highlight sh %}
+  rvm gemset use rails31{% endhighlight %}
+  
+  <p>
+    This will place us into the rails31 gemset. You can see this by running
+    <code>gem list</code> which will return a very short list of gems. Now we
+    can install Rails 3.1. <strong>WARNING!!!</strong> When you install gems
+    with RVM you will never want to use `sudo' when calling `gem install' while
+    using one of the RVM installed rubies. If
+    you do bad things will happen and kittens will die. The following command
+    assumes that the Rails team hasn't released another version of Rails
+    since 3.1.
+  </p>
+  
+  {% highlight sh %}
+  gem install rails{% endhighlight %}
+  
+  <p>
+    Now we have Rails 3.1 installed in it's own contained gemset. We can now
+    play around with it and not worry how installing this will effect our other
+    applications running older Rails version. To get back out of this gemset
+    simply call (assuming we still want to use the 1.9.2 Ruby version):
+  </p>
+  
+  {% highlight sh %}
+  rvm 1.9.2{% endhighlight %}
+  
+  <p>
+    There is a lot more information on RVM and how to use it including some
+    pretty cool (and useful) advanced features. I highly recommend you look over
+    the documentation on <a href="http://www.beginrescueend.com" target="_blank">RVMs website</a>.
+  </p>
+</article>
