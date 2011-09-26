@@ -1,0 +1,29 @@
+---
+layout: default
+title: subtlepatterns.com - A Great Resource for Design Patterns
+tags:
+  ["tips", "patterns", "design resources"]
+blurb: I came across a site that offers high quality repeating patterns that are free to use in design projects. Since I can't stand keeping things to myself I had to share.
+published: true
+categories:
+  ["tips"]
+---
+
+<article>
+  <header>
+    <h2>{{ page.title }}</h2>
+  </header>
+  <aside>
+    <ul>
+      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
+      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
+    </ul>
+  </aside>
+  <p>{{ page.blurb }}</p>
+  <p>
+    If you peruse the list of patterns that they have available (and at the time I wrote this
+    there were 85) you may find one that looks familiar. No, it's not deja vu, I'm using one of
+    their patterns on this very site. To get your pattern on just head over to
+    <a href="http://subtlepatterns.com/">Subtle Patterns</a> and look around.
+  </p>
+</article>
