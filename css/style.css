@@ -359,6 +359,18 @@ nav[role="navigation"] ul li.active a em {
   color: rgba(78, 68, 60, 0.7);
 }
 
+/* Disqus
+------------------------------------------------------------------------------*/
+
+#disqus_thread, .dsq-brlink {
+  display: block;
+  margin-left: 20%;
+}
+
+  .dsq-brlink {
+    padding-bottom: 40px;
+  }
+
 /* main styles
 ------------------------------------------------------------------------------*/
 
