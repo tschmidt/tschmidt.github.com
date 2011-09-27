@@ -209,7 +209,7 @@ body{
   color: #4e443c;
 	font-family:Helvetica, Helvetica Neue, Arial, sans-serif;
 	font-size: 70%;
-	background: #fff url('../images/bright_squares.png') repeat top left;
+	background: #fff url('../images/bright_squares.png') fixed top left;
 }
 
 a:link, a:visited {
@@ -242,13 +242,25 @@ strong {
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
           border-radius: 3px;
-     -webkit-box-shadow: 0 2px 3px rgba(78, 68, 60, 0.3);
-        -moz-box-shadow: 0 2px 3px rgba(78, 68, 60, 0.3);
-             box-shadow: 0 2px 3px rgba(78, 68, 60, 0.3);
+     -webkit-box-shadow: 0 2px 3px rgba(78, 68, 60, 0.7);
+        -moz-box-shadow: 0 2px 3px rgba(78, 68, 60, 0.7);
+             box-shadow: 0 2px 3px rgba(78, 68, 60, 0.7);
 }
 
 #wrap-inner {
   padding: 0 50px;
+}
+
+footer[role="main"] {
+  background-color: #454545;
+  color: #efefef;
+  padding: 50px;
+  -webkit-border-bottome-right-radius: 3px;
+   -webkit-border-bottome-left-radius: 3px;
+       -moz-border-radius-bottomright: 3px;
+        -moz-border-radius-bottomleft: 3px;
+           border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
 }
 
 /* grid options */
