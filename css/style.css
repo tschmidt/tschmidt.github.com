@@ -255,6 +255,7 @@ footer[role="main"] {
   background-color: #454545;
   color: #efefef;
   padding: 50px;
+  font-size: 12px;
   -webkit-border-bottome-right-radius: 3px;
    -webkit-border-bottome-left-radius: 3px;
        -moz-border-radius-bottomright: 3px;
@@ -263,9 +264,36 @@ footer[role="main"] {
             border-bottom-left-radius: 3px;
 }
 
+footer[role='main'] h1 {
+  color: #888;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+footer[role='main'] ul,
+footer[role='main'] ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer[role='main'] ul li {
+  padding: 0 0 5px 0;
+}
+
+footer[role='main'] ul li a span {
+  display: block;
+  font-style: italic;
+}
+
+footer[role='main'] .bookshelf ul li,
+footer[role='main'] .resources ul li {
+  padding-bottom: 10px;
+}
+
 /* grid options */
 
-div.mod {
+section.comp {
   float: left;
   width: 40%;
   margin: 0 0 30px 0;
@@ -275,18 +303,18 @@ div.mod {
           box-sizing: border-box;
 }
 
-div.mod-extra {
-  width: 20%;
-}
-
-div.mod-main {
+section.comp.main {
   width: 60%;
   padding: 0 50px 0 0;
 }
 
-div.mod-alt {
+section.comp.alt {
   float: right;
   padding: 0;
+}
+
+section.comp.extra {
+  width: 20%;
 }
 
 /* header[role="banner"]
@@ -530,13 +558,46 @@ article img.size-full {
   list-style: circle;
 }
 
+/* Bookshelf
+------------------------------------------------------------------------------*/
+
+footer[role='main'] .bookshelf ul li {
+  padding-left: 35px;
+  padding-bottom: 25px;
+  position: relative;
+}
+
+footer[role='main'] .bookshelf ul li:before {
+  content: url(../images/bookshelf/no-image.jpg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+footer[role='main'] .bookshelf ul li.aba.bk1:before {
+  content: url(../images/bookshelf/aba-1-thumb.png);
+}
+
+footer[role='main'] .bookshelf ul li.aba.bk2:before {
+  content: url(../images/bookshelf/aba-2-thumb.png);
+}
+
+footer[role='main'] .bookshelf ul li.aba.bk3:before {
+  content: url(../images/bookshelf/aba-3-thumb.png);
+}
+
+footer[role='main'] .bookshelf ul li.aba.bk4:before {
+  content: url(../images/bookshelf/aba-4-thumb.png);
+}
+
 /* self-clear floats */
     
 .group:after,
 header[role="banner"]:after,
 nav[role="navigation"]:after,
 #main:after,
-article:after {
+article:after,
+footer[role='main']:after {
   content: ".";
   display: block;
   height: 0;
