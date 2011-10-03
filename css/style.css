@@ -283,6 +283,10 @@ footer[role='main'] ul li {
 
 footer[role='main'] ul li a span {
   display: block;
+}
+
+footer[role='main'] ul li a span.extra,
+footer[role='main'] ul li a span.author {
   font-style: italic;
 }
 
@@ -588,6 +592,10 @@ footer[role='main'] .bookshelf ul li.aba.bk3:before {
 
 footer[role='main'] .bookshelf ul li.aba.bk4:before {
   content: url(../images/bookshelf/aba-4-thumb.png);
+}
+
+footer[role='main'] .bookshelf ul li.manning.rails3:before {
+  content: url(../images/bookshelf/rails3-thumb.jpg);
 }
 
 /* self-clear floats */
