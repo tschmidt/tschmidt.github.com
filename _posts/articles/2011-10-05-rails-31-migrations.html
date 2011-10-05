@@ -1,0 +1,139 @@
+---
+layout: default
+title: Rails 3.1 - Changes in Migrations
+tags:
+  ["articles", "rails", "rails 3.1", "migrations", "how to"]
+categories:
+  ["articles"]
+published: true
+comments: true
+blurb: With the release of Rails 3.1, a lot has changed. Migrations saw quite a few changes that I really like and I wanted to share them here. Migrations have always been one of my favorite parts of Rails because they make managing your database tables a breeze and with Rails 3.1 it gets even easier.
+---
+
+<article>
+  <header>
+    <h1>{{ page.title }}</h1>
+  </header>
+  <aside>
+    <ul>
+      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
+      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
+    </ul>
+  </aside>
+  <p>{{ page.blurb }}</p>
+  <p>
+    Migrations in Rails 3.1 has moved the #up and #down methods to instance methods
+    instead of class methods. This just feels better to me when writing migrations.
+  </p>
+  
+  {% highlight ruby linenos %}
+  class MyAwesomeMigration < ActiveRecord::Migration
+    def up
+      # some change you want to make goes here
+    end
+  
+    def down
+      # revert the change you made in the up action
+    end
+  end{% endhighlight %}
+  
+  <p>
+    Then, the Rails team took it one step further. Since most migrations are
+    just doing the reverse in the down action as what was done in the up action
+    they have introduced the #change action. When defined in your migration
+    this combines both the up and down actions into a single method call.
+  </p>
+  
+  <p>I. Heart. This.</p>
+  
+  <p>
+    It always felt like 90% of the migrations that I was writing didn't need
+    a separate definition for the down action. I wanted Rails to just figure
+    out that "if I'm creating a table in the up, then drop it in the down" or
+    "if I'm adding a column then remove it" or "if I'm changing a column then
+    change it back". Well, now that happens for us thanks to the new
+    <a href="https://github.com/rails/rails/blob/master/activerecord/lib/active_record/migration/command_recorder.rb">ActiveRecord::Migration::CommandRecorder</a> class.
+    I've added a few examples to show you how simple your migrations can
+    now be.
+  </p>
+  
+  {% highlight ruby linenos %}
+  # Add/Drop a table
+  class MyAwesomeMigration < ActiveRecord::Migration
+    def change
+      create_table(:users) do |t|
+        t.string :first_name
+        t.string :last_name
+        t.timestamps
+      end
+    end
+  end
+  
+  # Add/Remove a table column
+  class MyAwesomeMigration < ActiveRecord::Migration
+    def change
+      add_column :users, :birthdate, :date
+    end
+  end
+  
+  # Rename a column in a table
+  class MyAwesomeMigration < ActiveRecord::Migration
+    def change
+      rename_column :users, :birthdate, :birthday
+      # This one is a bit interesting because when the reverse is called
+      # the arguments you specify are simply reversed. So this would be the "down"
+      # action
+      #
+      #    rename_column :users, :birthday, :birthdate
+    end
+  end{% endhighlight %}
+  
+  <p>
+    Obviously, not everything can be reversed. For example, how would you
+    logically reverse removing a column? At first you might think "that's easy, 
+    just call add_column on the down action". The only problem with that is
+    when you call `remove_column' you don't specify the type for the column.
+    That means when the `add_column' action is called it will fail. Not to worry,
+    Rails will alert you if you have tried to do something it has deemed
+    irreversible. An `IrreversibleMigration' exception will be raised.
+  </p>
+  
+  <p>
+    Here is a list of the actions that are auto-magically reversed. The reverse
+    action is given inside the parenthesis:
+    
+    <ul>
+      <li>add_column (remove_column)</li>
+      <li>add_index (remove_index)</li>
+      <li>add_timestamps (remove_timestamps)</li>
+      <li>create_table (drop_table)</li>
+      <li>remove_timestamps (add_timestamps)</li>
+      <li>rename_column</li>
+      <li>rename_index</li>
+      <li>rename_table</li>
+    </ul>
+  </p>
+  
+  <p>
+    Another change that was made to keep in line with the new #change method
+    is that when you create a migration from a constructive migration generator,
+    the change method will be used in place of the up and down methods. Wondering
+    what a "constructive migration generator" is? Here's and example:
+  </p>
+  
+  {% highlight console %}
+  #=> rails g migration AddFirstNameToUsers first_name:string{% endhighlight %}
+  
+  {% highlight ruby linenos %}
+  # The following migration is created
+  class AddFirstNameToUsers < ActiveRecord::Migration
+    def change
+      add_column :users, :first_name, :string
+    end
+  end{% endhighlight %}
+  
+  <p>
+    And there you have it. Migrations in Rails 3.1 are even more awesome than
+    they used to be. So get out there and try these techniques for yourself.
+  </p>
+</article>
