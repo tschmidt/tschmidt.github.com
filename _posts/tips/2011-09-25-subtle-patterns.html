@@ -11,16 +11,7 @@ comments: true
 ---
 
 <article>
-  <header>
-    <h2>{{ page.title }}</h2>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     If you peruse the list of patterns that they have available (and at the time I wrote this
     there were 85) you may find one that looks familiar. No, it's not deja vu, I'm using one of

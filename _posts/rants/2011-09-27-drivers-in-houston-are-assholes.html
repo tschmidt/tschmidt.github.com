@@ -14,16 +14,7 @@ comments: true
 ---
 
 <article>
-  <header>
-    <h2>{{ page.title }}</h2>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     Driving in Houston has to be one of the most stressful things I do on a daily
     basis. It's almost as if people get behind the wheel of their car, inject

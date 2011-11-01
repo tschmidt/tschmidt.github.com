@@ -11,16 +11,7 @@ blurb: In this article I will walk you through the steps I took to add <a href="
 ---
 
 <article>
-  <header>
-    <h1>{{ page.title }}</h1>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     The first step is to create an account on Disqus if you have not already done so.
     I won't go into the specifics of how you do this as <a href="http://disqus.com/admin/register/" target="_blank">it's pretty self explanatory</a>.

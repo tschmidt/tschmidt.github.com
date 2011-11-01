@@ -11,16 +11,7 @@ comments: true
 ---
 
 <article>
-  <header>
-    <h1>{{ page.title }}</h1>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     A few days ago I was rummaging through my RSS feeds and <a href='http://teachmetocode.com/screencasts/ruby-koans/' target="_blank">I came across an
     article</a> that was discussing the Zen path to Ruby enlightenment. What the

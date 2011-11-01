@@ -10,16 +10,7 @@ categories:
 ---
 
 <article>
-  <header>
-    <h2>{{ page.title }}</h2>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     Since I am a huge fan of Github I decided to really look into using their
     "<a href="http://pages.github.com/">Github Pages</a>" feature. Basically, this lets you set up a new repository

@@ -11,16 +11,7 @@ comments: true
 ---
 
 <article>
-  <header>
-    <h1>{{ page.title }}</h1>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     The .rvmrc file tells RVM to switch to a particular Ruby version and/or gemset
     for a project or folder. When you cd into the project RVM will evaluate the

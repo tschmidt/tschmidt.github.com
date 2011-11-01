@@ -11,16 +11,7 @@ blurb: With the release of Rails 3.1, a lot has changed. Migrations saw quite a 
 ---
 
 <article>
-  <header>
-    <h1>{{ page.title }}</h1>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
-      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
-    </ul>
-  </aside>
-  <p>{{ page.blurb }}</p>
+  {% include page_header.html %}
   <p>
     Migrations in Rails 3.1 has moved the #up and #down methods to instance methods
     instead of class methods. This just feels better to me when writing migrations.
