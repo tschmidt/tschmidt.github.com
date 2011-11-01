@@ -1,0 +1,66 @@
+---
+layout: default
+title: Quickly Add an .rvmrc File to Your Project
+tags:
+  ["tips", "ruby", "rails", "rvm"]
+blurb: If you are using RVM then you probably know about the .rvmrc file, but did you know that there's an easy way of creating it?
+published: true
+categories:
+  ["tips"]
+comments: true
+---
+
+<article>
+  <header>
+    <h1>{{ page.title }}</h1>
+  </header>
+  <aside>
+    <ul>
+      <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
+      <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>
+    </ul>
+  </aside>
+  <p>{{ page.blurb }}</p>
+  <p>
+    The .rvmrc file tells RVM to switch to a particular Ruby version and/or gemset
+    for a project or folder. When you cd into the project RVM will evaluate the
+    .rvmrc file and automatically switch to the ruby/gemset specified.
+  </p>
+  <p>
+    Creating this file by hand is pretty simple but there's a shortcut. Since you
+    are most likely on the command line when you create your Ruby project you can
+    just type the following command:
+  </p>
+  
+  {% highlight sh %}
+  rvm --rvmrc --create ruby_version@gemset{% endhighlight %}
+  
+  <p>
+    You would just specify the Ruby version (and patch level if you'd like) and
+    the name of the gemset you want to use. Let's say I have a project called
+    best_thing_evar and I want to use Ruby 1.9.2 on this project. I would cd into
+    the root of that project and type the following.
+  </p>
+  
+  {% highlight sh %}
+  rvm --rvmrc --create 1.9.2@best_thing_evar{% endhighlight %}
+  
+  <p>
+    That's it. When you look at the files in the root folder of your project
+    you will see a .rvmrc file.
+  </p>
+  
+  <h2>But wait! There's more!</h2>
+  
+  <p>
+    If you have a system or user .rvmrc file and you have the following in it&#8230;
+  </p>
+  
+  {% highlight ruby %}
+  rvm_install_on_use_flag=1 {% endhighlight %}
+  
+  <p>
+    &#8230;RVM will automatically install the Ruby you specify if it is not installed
+    instead of complaining about it not being on your system.
+  </p>
+</article>
