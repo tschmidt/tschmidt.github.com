@@ -1,0 +1,113 @@
+---
+layout: default
+title: MailView by 37Signals
+tags:
+  ["tips", "email", "37signals"]
+blurb: Have you ever wanted to develop your emails like you do your views in a Rails app? 37signals has a gift for you.
+published: true
+categories:
+  ["tips"]
+comments: true
+---
+
+<article>
+  {% include page_header.html %}
+  <p>
+    So here's the low down. <a href="http://37signals.com/" target="_blank">37signals</a> have once again come to the rescue with an
+    amazing little gem called <a href="https://github.com/37signals/mail_view" target="_blank">MailView</a>. It's fairly straightforward to get set up
+    and I'm going to show you how.
+  </p>
+  
+  <p>
+    First, you will need a Rails application set up with a functioning mailer class.
+    I'm assuming you are using Rails 3.whatev for this example. You could still be
+    using Rails 2.whatev but you could also still be dragging your knuckles on the
+    ground and chasing after your dinner.
+    Also, this is a tip and not a tutorial (per se) so I won't go into detail on how you
+    create a Rails 3 app with a mailer. So...onto getting things set up.
+  </p>
+  
+  {% highlight ruby %}
+  # in your Gemfile add
+  group :development do
+    gem 'mail_view'
+  end{% endhighlight %}
+  
+  <p>
+    Then run the <code>bundle install</code> command.
+  </p>
+  
+  <p class="notice">
+    A word of warning, when I first tried this I got an exception about 'tilt'
+    not being found. If you run into the same problem then just modify your 
+    Gemfile to include the Tilt gem as well. Apparently, 
+    <a href="https://github.com/37signals/mail_view/pull/9" target="_blank">this is a known 
+    issue</a> and I'm hoping it will be resolved soon.
+  </p>
+  
+  <p>
+    Once everything is installed you will need to set up your "preview" class
+    for any mailer you want to view in the browser. 
+  </p>
+  
+  {% highlight ruby %}
+  # app/mailers/notifier.rb
+  class Notifier < ActionMailer::Base
+    def welcome(user)
+      #stuff going on in here
+    end
+  end
+  
+  # make sure we only load the preview class in development mode
+  if Rails.env.development?
+    class Notifier::Preview < MailView
+      # define a method that will be listed as the "view name" in the browser
+      # I just used the same name as the email action from the mailer class
+      def welcome
+        # you will need to generate any objects that the mail action from your
+        # mailer class is expecting.
+        user = User.first || User.new(...)
+        Notifier.welcome(user)
+      end
+    end
+  end{% endhighlight %}
+  
+  <p>
+    You will create new methods in the Preview class for any mailer action you
+    want to preview in the browser. Also note that you do not have to call your
+    preview class 'Preview'. You could call it 'MahoganyWood' for all I care, the
+    important thing is that it is a sub-class of MailView. Onto the route! 
+  </p>
+  
+  <p>
+    In your <code>app/config/routes.rb</code> file you will need to "mount" the
+    new preview class you just created.
+  </p>
+  
+  {% highlight ruby %}
+  # app/config/routes.rb
+  ...
+  # again, making sure we only load this if we are in dev mode
+  if Rails.env.development?
+    mount Notifier::Preview => 'notifier_preview'
+  end{% endhighlight %}
+  
+  <p>
+    What we just did was create a new "/notifier_preview" path in our app.
+    When you navigate to that url you will be presented with a list of links for
+    each preview action you defined in your preview class. In this example, you
+    would just see a link called "welcome". When you click on the link the html
+    version of the email will be loaded for you to see. Bam!!! If you also
+    created a text version of the email (and of course you did) then you will
+    see a link in the upper right corner labeled "View Text version". Bam again!!!
+  </p>
+  
+  <p>
+    And there you have it. Pure awesomeness. Now you can develop your emails as
+    if they were just another view in your application. Then, when you are happy
+    with how it is displaying you can send it to different email clients and 
+    tweak as necessary.
+  </p>
+  
+  <p>Somthing missing? Need more explanation? Let me know in the c-c-c-comments!</p>
+</article>
