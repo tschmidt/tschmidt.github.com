@@ -1,0 +1,185 @@
+---
+layout: default
+title: Paginate Like a Boss
+tags:
+  ["articles", "jekyll", "pagination", "how to"]
+blurb: 
+  My blog has finally gotten to the point where pagination is required. In this
+  post I walk you through the steps I took to add pagination to my own Jekyll
+  driven blog. Aren't I awesome?
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    In order to tell Jekyll that you want to use pagination you will need to
+    modify your <code>_config.yml</code> file.
+  </p>
+  
+  {% highlight ruby %}
+  ...
+  paginate: 10{% endhighlight %}
+  
+  <p>
+    By adding this to our config file, we are telling Jekyll that we would like
+    to activate the pagination module and that each paginated page should show
+    a maximum of 10 entries. Now, you can obviously change this to any number
+    you would like. This also gives us access to the <code>paginator</code> object
+    which we will look at next.
+  </p>
+  
+  <h2>Getting to Know the Paginator</h2>
+  
+  <p>
+    Once Jekyll sees that we want to use pagination we have access to the <code>paginator</code>
+    object. You can go <a href="https://github.com/mojombo/jekyll/wiki/Template-Data" target="_blank">here</a>
+    to get more information on what methods you can call on this object. The 2
+    that we are going to look at right now are <code>#previous_page</code> and
+    <code>#next_page</code>.
+  </p>
+  
+  <p>
+    As you may have deduced, <code>#previous_page</code> and <code>#next_page</code>
+    return the previous page number of paginated results and the next page number of paginated
+    results. If there is no previous or next result then nil is returned. We
+    can use this to our advantage when we are creating our simple navigation.
+  </p>
+  
+  <p>
+    The next thing to be aware of is the naming convention used for the pagination
+    pages. Jekyll labels these "page2", "page3", "page4", and so on. This means
+    that in order to reference the URL for our paginated page we would write
+    something like <code>http://mysite.com/page2/</code>. Keen readers may have
+    noticed I didn't start with "page1". Keep that in mind as we work through
+    this exercise.
+  </p>
+  
+  <p>
+    I should mention here that in order to <acronym title="Keep It Simple Stupid">KISS</acronym>,
+    I have opted to only show a previous and next link if it's appropriate. There
+    are methods available that tell you the number of pages, the current page number,
+    and so on if you would like to add this information. I may update this post
+    at a later date with how to do that if there is a demand for it.
+  </p>
+  
+  <h2>The Nitty Gritty</h2>
+  
+  <p>
+    Before we start coding, let's think about how we will implement this feature.
+    Since I want this to be as simple as possible I want to just have 2 links
+    for navigation: next page and previous page. These will most likely be
+    wrapped in a container of some sort. Since this is technically "navigation"
+    it only makes sense to use the <code>&lt;nav&gt;</code> element.
+  </p>
+  
+  {% highlight html %}
+  <nav id="pagination">
+    ...
+  </nav>{% endhighlight %}
+  
+  <p>
+    Since I'm already using a <code>&lt;nav&gt;</code> element to wrap the 
+    main navigation at the top I have also added an ID to the pagination nav.
+    I chose to go with an ID because I don't anticipate having more than one
+    pagination navigation element per page. Next, we need to think about the
+    links themselves.
+  </p>
+  
+  <p>
+    The easiest solution would to just put 2 links in this container and call
+    it a day.
+  </p>
+  
+  {% highlight html %}
+  <nav id="pagination">
+    <a href="/page{{ "{{ paginator.previous_page "}}}}/" title="Previous Page">&laquo; Previous</a>
+    <a href="/page{{ "{{ paginator.next_page "}}}}/" title="Next Page">Next &raquo;</a>
+  </nav>{% endhighlight %}
+  
+  <p>
+    Unfortunately, there are a couple of problems with this approach. Let's start
+    with the "next page" link since it is the simpler of the 2. The problem with
+    just putting the link there is that there may not be a "next page" of articles.
+    Let's say we have 15 articles published and we are listing 10 articles per-page.
+    Page 2 would only have 5 articles listed which would mean there is no page 3
+    eliminating the need for a "next page" link.
+  </p>
+  
+  <p>
+    Luckily we can address this problem. Remember when I mentioned that the
+    <code>#next_page</code> method returns <code>nil</code> if there is no
+    next page? We can take advantage of that in an <code>if</code> statement.
+  </p>
+  
+  {% highlight html %}
+  <nav id="pagination">
+    <a href="/page{{ "{{ paginator.previous_page "}}}}/" title="Previous Page">&laquo; Previous</a>
+    {{ "{% if paginator.next_page " }}%} 
+    <a href="/page{{ "{{ paginator.next_page "}}}}/" title="Next Page">Next &raquo;</a>
+    {{ "{% endif " }}%} 
+  </nav>{% endhighlight %}
+  
+  <p>
+    Now, the "next page" link will only display if there is actually a next page.
+    Let's tackle the "previous page" link.
+  </p>
+  
+  <p>
+    There are 2 problems we need to address with the "previous page" link.
+    The first is similar to the "next page" so we can address that in a similar
+    manner.
+  </p>
+  
+  {% highlight html %}
+  <nav id="pagination">
+    {{ "{% if paginator.previous_page " }}%} 
+    <a href="/page{{ "{{ paginator.previous_page "}}}}/" title="Previous Page">&laquo; Previous</a>
+    {{ "{% endif " }}%}
+    
+    {{ "{% if paginator.next_page " }}%} 
+    <a href="/page{{ "{{ paginator.next_page "}}}}/" title="Next Page">Next &raquo;</a>
+    {{ "{% endif " }}%} 
+  </nav>{% endhighlight %}
+  
+  <p>
+    Now that the link will only be displayed if there is a previous page of articles,
+    we need to address the problem with linking to the first page of results.
+    Since the paginator labels each page as <code>'/pageN'</code> the first
+    page would be a URL that looks like <code>'http://mysite.com/page1'</code>.
+    Unfortunately, this will result in a 404 error since there is no <code>'/page1'</code>.
+    The first page of results is actually at the root (<code>'http://mysite.com/'</code>). Luckily, we can easily
+    handle this scenario with an if-else statement and the <code>#previous_page</code>
+    method.
+  </p>
+  
+  {% highlight html %}
+  <nav id="pagination">
+    {{ "{% if paginator.previous_page " }}%}
+      {{ "{% if paginator.previous_page == 1 " }}%}
+      <a href="/" title="Previous Page">&laquo; Previous</a>
+      {{ "{% else " }}%}
+      <a href="/page{{ "{{ paginator.previous_page "}}}}/" title="Previous Page">&laquo; Previous</a>
+      {{ "{% endif " }}%}
+    {{ "{% endif " }}%}
+    
+    {{ "{% if paginator.next_page " }}%} 
+    <a href="/page{{ "{{ paginator.next_page "}}}}/" title="Next Page">Next &raquo;</a>
+    {{ "{% endif " }}%} 
+  </nav>{% endhighlight %}
+  
+  <p>
+    And there you go. We now have pagination for our site. Everything is awesome
+    and we can party like it's the end of the <a href="http://en.wikipedia.org/wiki/Maya_calendar#Long_Count" target="_blank">Mayan Calendar</a>.
+    Unfortunately, if you have a site similar to mine where you have separate index
+    pages by category -- for example I have "Articles", "Tips", and "Rants" --
+    this approach will not work on those category pages. In part 2, I will show you how to deal with this
+    situation.
+  </p>
+  
+  <p>Somthing missing? Need more explanation? Let me know in the c-c-c-comments!</p>
+</article>
