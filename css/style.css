@@ -231,6 +231,17 @@ strong {
   font-weight: bold;
 }
 
+accronym {
+  border-bottom: 1px silver dotted;
+  cursor: help;
+}
+
+p code {
+  background-color: whitesmoke;
+  border: 1px solid #ccc;
+  padding: 3px;
+}
+
 /* page structure
 ------------------------------------------------------------------------------*/
 

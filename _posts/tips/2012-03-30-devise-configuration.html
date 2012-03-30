@@ -1,0 +1,82 @@
+---
+layout: default
+title: Set Custom Layouts for Devise Controllers
+tags:
+  ["tips", "devise", "rubygems"]
+blurb: Have you ever needed to set a custom layout for a Devise controller? It's actually easier than you might think.
+published: true
+categories:
+  ["tips"]
+comments: true
+---
+
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    <a href="https://github.com/plataformatec/devise" target="_blank">Devise</a>
+    is quickly becoming my go-to solution when it comes to user authentication.
+    One of the challenges that I had was to specify a custom layout for the
+    registration controller. Here's how I did it.
+  </p>
+  
+  <h3>First, The "Dont't Ever Do It Like This" Method</h3>
+  
+  <p>
+    The first time I encountered this problem I made the mistake of re-creating
+    the Devise controller in my application. In other words, I actually created
+    an <code>app/controllers/devise/registrations_controller.rb</code> file.
+    Then I - <em>gasp</em> - copy and pasted what was in the Devise Registrations
+    file in the gem. I know, I too have my moments.
+  </p>
+  
+  <p>
+    After slapping myself repeatedly for about an hour, I thought "HAZAA! I've
+    got it!". I proceeded to sub-class the Devise Registrations controller in
+    <code>app/controllers/my_registrations_controller.rb</code>. At least with
+    this approach I wouldn't be screwed if I updated the Devise gem and the devs
+    decided to change the way this controller worked.
+  </p>
+  
+  <p>
+    After patting myself on the back and congratulating my brilliance I moved
+    on to other parts of the site. Then came the itch. You know the feeling. It
+    happens when you know you didn't do it the right way. Then came that little
+    voice inside that says "you know this is probably something that is pretty
+    common...they probably have a better solution baked right in". Annnnd of
+    course, little voice was right.
+  </p>
+  
+  <h3>This is Why We Read the Source</h3>
+  
+  <p>
+    One afternoon when I couldn't shut up 'little voice' I sat down in front of
+    my computer and started going through the Devise source code and wiki. Sure
+    as shit, there it was. One suggestion was to add a config option to the
+    application.rb file. My suggestion - which is admittedly more awesome - is to
+    put it in an initializer file like <code>config/initializers/devise_layouts_config.rb</code>.
+  </p>
+  
+  <p>
+    Then put something like the following inside of it and bam! Custom layout
+    joygasm.
+  </p>
+  
+  {% highlight ruby %}
+  # Specify the layout file that should be used for each Devise controller
+  AppName::Application.configure do
+    config.to_prepare do
+      Devise::SessionsController.layout       "layoutname"
+      Devise::RegistrationsController.layout  "layoutname"
+      Devise::ConfirmationsController.layout  "layoutname"
+      Devise::UnlocksController.layout        "layoutname"
+      Devise::PasswrodsController.layout      "layoutname"
+    end
+  end{% endhighlight %}
+  
+  <p>
+    And there you have it. Wasn't that simple?
+  </p>
+  
+  {% include article_footer.html %}
+</article>
