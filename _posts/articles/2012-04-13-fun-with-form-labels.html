@@ -1,0 +1,507 @@
+---
+layout: default
+title: Fun With Form Labels
+tags:
+  ["articles", "html", "css", "javascript", "forms", "css3"]
+blurb: 
+  Let's be honest, forms labels are boring. I bet there are probably two ways
+  you've done form labels&#58; on top of the input field or to the left of the
+  input field. Sure, you might get fancy with styling, but really that layout
+  is pretty much the norm. Well, I say screw that! Let's explore ways we can
+  spice this up.
+published: true
+categories:
+  ["article"]
+comments: true
+jquery: true
+---
+
+<article>
+  {% include page_header.html %}
+  
+  <style type="text/css" media="screen">
+    form {
+      margin: 20px 0;
+    }
+
+    form,
+    form div {
+      position: relative;
+    }
+    
+    form div {
+      margin-bottom: 10px;
+    }
+
+    form div input:not([type='submit']) {
+      width: 250px;
+      border-radius: 3px;
+      border: 1px solid #888;
+      -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .5);
+    }
+
+    form div label,
+    form div input:not([type='submit']) {
+      height: 25px;
+      line-height: 25px;
+      margin: 0;
+      padding: 5px;
+    }
+
+    form div label {
+      color: #777;
+      line-height: 29px;
+      padding-left: 8px;
+      position: absolute;
+      cursor: text;
+    }
+    
+    form.transitions div label {
+      -webkit-transition: all 0.4s ease;  /* Safari and Chrome */
+      -moz-transition: all 0.4s ease;     /* Firefox 4+ */
+      -o-transition: all 0.4s ease;       /* Opera */
+      transition: all 0.4s ease;          /* Browsers that support non prefixed property */
+    }
+    
+    form div label.vanish {
+      opacity: 0;
+      font-size: 1px;
+    }
+    
+    form div label.slide {
+      left: 260px;
+    }
+  </style>
+  
+  <p>
+    First, a disclaimer. I will admit that the ideas for this article actually
+    came from an experience I had with the <a href='https://twitter.com/'>Twitter login page</a>.
+    I like the approach that they took because it wasn't just a traditional
+    use of the "placeholder" attribute. If you watch closely you will see that
+    there is a slight animation in the way that the label disappears. It's
+    subtle, but effective. Here, I will discuss ways you can accomplish
+    this and also some alternatives that may work for your designs as well.
+  </p>
+  
+  <h2>The Twitter Effect</h2>
+  
+  <p>
+    So, looking into how Twitter accomplished the form effect I discovered
+    a couple things. The first is that this uses CSS and a sprinkle of JavaScript.
+    The other is that they are using a rather interesting approach to their
+    markup. Let's look at the markup first.
+  </p>
+  
+  {% highlight html %}
+<div>
+  <input type='text' />
+  <span class='holder'>Placeholder Text</span>
+</div>{% endhighlight %}
+
+  <p>
+    There are a few other attributes on the input element and the class names
+    have been changed to protect the innocent, but this is pretty close to the
+    actual code they are using. I have a problem with this though. Why they
+    chose to use a span instead of the standard label element makes no sense
+    to me. It's not semantic. There really is no reason for not using it. Plus, it
+    doesn't degrade in browsers that won't understand the CSS.
+  </p>
+  
+  <p>
+    Ok, so that was me on my soapbox and I can put it away now. For this article
+    I will be using the following markup:
+  </p>
+  
+  {% highlight html %}
+<div>
+  <label for='someinputsid'>Label Text</label>
+  <input id='someinputsid' type='text' />
+</div>{% endhighlight %}
+  
+  <p>
+    Here are the styles that I apply to the form:
+  </p>
+  
+  {% highlight css %}
+form {
+  margin: 20px 0;
+}
+
+form,
+form div {
+  position: relative;
+}
+
+form div {
+  margin-bottom: 10px;
+}
+
+form div input:not([type='submit']) {
+  width: 250px;
+  border-radius: 3px;
+  border: 1px solid #888;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .5);
+}
+
+form div label,
+form div input:not([type='submit']) {
+  height: 25px;
+  line-height: 25px;
+  margin: 0;
+  padding: 5px;
+  position: relative;
+}
+
+form div label {
+  color: #777;
+  line-height: 29px;
+  padding-left: 8px;
+  position: absolute;
+  cursor: text;
+}{% endhighlight %}
+  
+  <p>
+    And here is what I ended up with as a final product.
+  </p>
+  
+  <form>
+    <div>
+      <label for='input1'>Name</label>
+      <input id='input1' type='text' />
+    </div>
+    <div>
+      <label for='input2'>Username</label>
+      <input id='input2' type='text' />
+    </div>
+    <div>
+      <label for='input3'>Email Address</label>
+      <input id='input3' type='text' />
+    </div>
+    <div>
+      <label for='input4'>Password</label>
+      <input id='input4' type='password' />
+    </div>
+    <div>
+      <input type='submit'>
+    </div>
+  </form>
+  
+  <p>
+    As you can see, I was able to keep a semantic structure to my HTML. This is important
+    if the browser can't understand the CSS (say for example a screen-reader).
+    Then, using a little CSS to style the input and
+    label elements we have something that looks very close to our goal. Sadly,
+    it's not very functional. If you try typing something into the
+    fields you will quickly discover the problem.
+  </p>
+  
+  <h2>The JavaScript Only Approach</h2>
+  
+  <aside>
+    <p>
+      For these examples, use the HTML structure from above. Also, I am using
+      the jQuery JavaScript framework for all of my examples.
+    </p>
+  </aside>
+  
+  <p>
+    This first example is almost a direct "copy" of the twitter form inputs.
+    When you place your cursor in the field it will focus the input but
+    the text will not disappear. Once you start to type something the label
+    vanishes and your text is left behind. When the blur event occurs - your cursor
+    leaves the input element - a check is done to see if the input field is blank.
+    If it is, then the label is revealed again. Notice that I have also called
+    the <code>blur()</code> method at the very end. I wanted to make sure I
+    handled a situation where the value for the input was already set on page load.
+  </p>
+  
+  <h3>The Code</h3>
+  
+  {% highlight javascript %}
+$('#vanishExample input:not(:submit)').keypress(function () {
+  $(this).prev().animate({ fontSize: 1, opacity: 0 }, 'fast');
+}).blur(function () {
+  var $this = $(this);
+  if (!$this.val()) {
+    $this.prev().animate({ fontSize: $this.css('font-size'), opacity: 1 }, 'fast')
+  } else {
+    $this.keypress();
+  }
+}).blur();{% endhighlight %}
+
+  <form id='vanishExample'>
+    <div>
+      <label for='input5'>Name</label>
+      <input id='input5' type='text' />
+    </div>
+    <div>
+      <label for='input6'>Username</label>
+      <input id='input6' type='text' />
+    </div>
+    <div>
+      <label for='input7'>Email Address</label>
+      <input id='input7' type='text' />
+    </div>
+    <div>
+      <label for='input8'>Password</label>
+      <input id='input8' type='password' />
+    </div>
+    <div>
+      <input type='submit'>
+    </div>
+  </form>
+  
+  <script type="text/javascript" charset="utf-8">
+    (function () {
+      $('#vanishExample input:not(:submit)').keypress(function () {
+        $(this).prev().animate({ fontSize: 1, opacity: 0 }, 'fast');
+      }).blur(function () {
+        var $this = $(this);
+        if (!$this.val()) {
+          $this.prev().animate({ fontSize: $this.css('font-size'), opacity: 1 }, 'fast')
+        } else {
+          $this.keypress();
+        }
+      }).blur();
+    })();
+  </script>
+  
+  <p>
+    After working with the "vanishing" technique I realized there was a problem.
+    It's one that I've encountered before and I view as a usability issue. Once
+    you start typing in the field, the label disappears. We are expecting the user
+    to remember what it is we are asking for. Unfortunately, with all of the 
+    distractions that we encounter on a daily basis it would be nice if we
+    could have some indication of what it is we are supposed to be typing.
+  </p>
+  
+  <p>
+    This next example uses a sliding label that will remain in view after
+    the user begins to enter information into the field.
+  </p>
+  
+  <h3>The Code</h3>
+  
+  {% highlight javascript %}
+$('#slideExample input:not(:submit)').keypress(function () {
+  var $this = $(this);
+  // get the width of the input and add 10 pixels of padding
+  $this.prev().animate({ marginLeft: (parseInt($this.css('width')) + 10) });
+}).blur(function () {
+  var $this = $(this);
+  if (!$this.val()) {
+    $this.prev().animate({ marginLeft: 0 });
+  } else {
+    $this.keypress();
+  }
+}).blur(){% endhighlight %}
+  
+  <form id='slideExample'>
+    <div>
+      <label for='input9'>Name</label>
+      <input id='input9' type='text' />
+    </div>
+    <div>
+      <label for='input10'>Username</label>
+      <input id='input10' type='text' />
+    </div>
+    <div>
+      <label for='input11'>Email Address</label>
+      <input id='input11' type='text' />
+    </div>
+    <div>
+      <label for='input12'>Password</label>
+      <input id='input12' type='password' />
+    </div>
+    <div>
+      <input type='submit'>
+    </div>
+  </form>
+  
+  <script type="text/javascript" charset="utf-8">
+    $('#slideExample input:not(:submit)').keypress(function () {
+      var $this = $(this);
+      // get the width of the input and add 10 pixels of padding
+      $this.prev().animate({ marginLeft: (parseInt($this.css('width')) + 10) });
+    }).blur(function () {
+      var $this = $(this);
+      if (!$this.val()) {
+        $this.prev().animate({ marginLeft: 0 });
+      } else {
+        $this.keypress();
+      }
+    }).blur()
+  </script>
+  
+  <h2>The CSS3 Way</h2>
+  
+  <aside>
+    <p>
+      If you are not using a browser that supports CSS3, these examples will not
+      work for you.
+    </p>
+  </aside>
+  
+  <p>
+    Now that we have CSS3 we don't have to rely on JavaScript as much. In fact,
+    we only really need to use it to manage the switching of the class name to
+    reflect the current state of our input fields.
+  </p>
+  
+  <p>
+    The first thing we will need to do is update our CSS to include the new
+    CSS3 <code>transition</code> property.
+  </p>
+  
+  {% highlight css %}
+...
+
+form.transitions div label {
+  ...
+  -webkit-transition: all 0.4s ease;  /* Safari and Chrome */
+  -moz-transition: all 0.4s ease;     /* Firefox 4+ */
+  -o-transition: all 0.4s ease;       /* Opera */
+  transition: all 0.4s ease;          /* Browsers that support non prefixed property */
+}
+
+...{% endhighlight %}
+  
+  <p>
+    We'll start with remaking the "vanish" form label. To facilitate this, we
+    will need to add some additional CSS that will specify how the label
+    should look. We will also need to add a class that can be used to trigger
+    the effect with a pinch of JavaScript.
+  </p>
+  
+  {% highlight css %}
+form div label.vanish {
+  opacity: 0;
+  font-size: 1px;
+}{% endhighlight %}
+  
+  <p>
+    The JavaScript will be almost identical, except that we are now just toggling
+    the css class for the label element.
+  </p>
+  
+  {% highlight javascript %}
+$('#cssVanishExample input').keypress(function () {
+  $(this).prev().addClass('vanish');
+}).blur(function () {
+  var $this = $(this);
+  if (!$this.val()) {
+    $this.prev().removeClass('vanish');
+  } else {
+    $this.keypress();
+  }
+}).blur();{% endhighlight %}
+
+  <form id='cssVanishExample' class='transitions'>
+    <div>
+      <label for='input13'>Name</label>
+      <input id='input13' type='text' />
+    </div>
+    <div>
+      <label for='input14'>Username</label>
+      <input id='input14' type='text' />
+    </div>
+    <div>
+      <label for='input15'>Email Address</label>
+      <input id='input15' type='text' />
+    </div>
+    <div>
+      <label for='input16'>Password</label>
+      <input id='input16' type='password' />
+    </div>
+    <div>
+      <input type='submit'>
+    </div>
+  </form>
+  
+  <script type="text/javascript" charset="utf-8">
+    $('#cssVanishExample input').keypress(function () {
+      $(this).prev().addClass('vanish');
+    }).blur(function () {
+      var $this = $(this);
+      if (!$this.val()) {
+        $this.prev().removeClass('vanish');
+      } else {
+        $this.keypress();
+      }
+    }).blur();
+  </script>
+  
+  <p>
+    Looks pretty good. Now onto the "slide" example. This one will require the
+    same prep as the "vanish" example. For the CSS, I apply a position of
+    absolute and then set the <code>left</code> CSS property to <code>260px</code>.
+  </p>
+  
+  {% highlight css %}
+form div label.slide {
+  left: 260px; /* input width (250px) + 10px of padding */
+}{% endhighlight %}
+
+  <p>
+    And then update the JavaScript to use our new <code>slide</code> class.
+  </p>
+  
+  {% highlight javascript %}
+$('#cssSlideExample input').keypress(function () {
+  $(this).prev().addClass('slide');
+}).blur(function () {
+  var $this = $(this);
+  if (!$this.val()) {
+    $this.prev().removeClass('slide');
+  } else {
+    $this.keypress();
+  }
+}).blur();{% endhighlight %}
+  
+  <form id='cssSlideExample' class='transitions'>
+    <div>
+      <label for='input17'>Name</label>
+      <input id='input17' type='text' />
+    </div>
+    <div>
+      <label for='input18'>Username</label>
+      <input id='input18' type='text' />
+    </div>
+    <div>
+      <label for='input19'>Email Address</label>
+      <input id='input19' type='text' />
+    </div>
+    <div>
+      <label for='input20'>Password</label>
+      <input id='input20' type='password' />
+    </div>
+    <div>
+      <input type='submit'>
+    </div>
+  </form>
+  
+  <script type="text/javascript" charset="utf-8">
+    $('#cssSlideExample input').keypress(function () {
+      $(this).prev().addClass('slide');
+    }).blur(function () {
+      var $this = $(this);
+      if (!$this.val()) {
+        $this.prev().removeClass('slide');
+      } else {
+        $this.keypress();
+      }
+    }).blur();
+  </script>
+  
+  <h2>Instant Awesome</h2>
+  
+  <p>
+    I hope I've inspired you to think outside the box and motivated you to come
+    up with your own unique way of mixing up the standard form layout. With
+    advancements in CSS and JavaScript there really is no reason for not experimenting
+    with new layout techniques. If you've created something spectacular please
+    link to it in the comments. I love seeing what others are doing.
+  </p>
+  
+  {% include article_footer.html %}
+</article>
