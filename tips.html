@@ -5,20 +5,26 @@ title: Tips that are guaranteed to get you laid
 
 {% for post in site.categories.tips %}
 <article>
-  <header>
-    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-  </header>
-  <aside>
-    <ul>
-      <li class="date"><strong>{{ post.date | date_to_string }}</strong></li>
-      <li class="tags">
-        {{ post.tags | sort | array_to_sentence_string }}
-      </li>
-    </ul>
-  </aside>
-  <p>
-    {{ post.blurb }}<br>
-    <a href="{{ post.url }}">Read More...</a>
-  </p>
+  <div class='row'>
+    <aside class='span3 article-meta'>
+      <ul class='unstyled'>
+        <li class="date"><strong>{{ post.date | date_to_string }}</strong></li>
+        <li class="tags">
+          {{ post.tags | sort | array_to_sentence_string }}
+        </li>
+      </ul>
+    </aside>
+    
+    <div class='span9'>
+      <header>
+        <h2 class='article-title'><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      </header>
+
+      <p>
+        {{ post.blurb }}<br>
+        <a href="{{ post.url }}#continue">Read More...</a>
+      </p>
+    </div>
+  </div>
 </article>
 {% endfor %}

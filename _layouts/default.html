@@ -22,76 +22,68 @@
 	<script src="/js/libs/respond.min.js"></script>
 </head>
 <body>
-	
-  <div id="wrap">
-    <div id="wrap-inner">
-      <header role="banner">
-        <h1><a href="/">Schmidt<span>Happens</span></a></h1>
-        <nav role="navigation">
-          <ul class="group">
-            <li id="n-articles">
-              <a href='/articles.html'>
-                <strong>
-                  Articles <em>Thoughts Expanded</em>
-                </strong>
-              </a>
-            </li>
-            <li id="n-tips">
-              <a href='/tips.html'>
-                <strong>
-                  Tips <em>Tiny Bytes</em>
-                </strong>
-              </a>
-            </li>
-            <li id="n-rants">
-              <a href='/rants.html'>
-                <strong>
-                  Rants <em>Good, Bad or Ugly</em>
-                </strong>
-              </a>
-            </li>
-            <li id="n-about">
-              <a href='/about.html'>
-                <strong>
-                  About <em>Who Am I?</em>
-                </strong>
-              </a>
-            </li>
-            <li id="n-projects">
-              <a href='/projects.html'>
-                <strong>
-                  Projects <em>Things I've Built</em>
-                </strong>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <div id="main" role="main">
-        {{ content }}
-        
-        {% if page.comments %}
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'schmidthappensgh'; // required: replace example with your forum shortname
+  
+  <header>
+    <div class='container clearfix'>
+      <h1 class="pull-left"><a href='/'>Schmidt<span>Happens</span></a></h1>
+      <nav role="navigation" class='pull-right'>
+        <ul class="nav nav-pills">
+          <li id="n-articles">
+            <a href='/articles.html'>
+              Articles
+            </a>
+          </li>
+          <li id="n-tips">
+            <a href='/tips.html'>
+              Tips
+            </a>
+          </li>
+          <li id="n-rants">
+            <a href='/rants.html'>
+              Rants
+            </a>
+          </li>
+          <li id="n-about">
+            <a href='/about.html'>
+              About
+            </a>
+          </li>
+          <li id="n-projects">
+            <a href='/projects.html'>
+              Projects
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class='container article-container'>
+    {{ content }}
+    
+    {% if page.comments %}
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'schmidthappensgh'; // required: replace example with your forum shortname
 
-            /* * * DON'T EDIT BELOW THIS LINE * * */
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-        {% endif %}
-      </div> <!-- end #main -->
-    </div> <!-- end #wrap-inner -->
-    <footer role="main">
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    {% endif %}
+  </div>
+	
+  <footer role="main">
+    <div class='container'>
       <section class="comp about main">
         <header>
-          <h1>Sometimes...schmidt happens</h1>
+          <h2 class='article-title'>Sometimes...schmidt happens</h2>
         </header>
         <p>
           Schmidt<span>Happens</span> is the personal blog of Terry Schmidt. Here you will
@@ -99,68 +91,75 @@
           Enjoy. Spread the word.
         </p>
       </section>
-      <section class="comp bookshelf alt">
-        <header>
-          <h1>Currently on my bookshelf</h1>
-        </header>
-        <ul>
-          <li class="aba bk1">
-            <a href="http://www.abookapart.com/products/html5-for-web-designers" title="A Book Apart: HTML5 for Web Designers">
-              <span class="book title">HTML5 for Web Designers</span>
-              <span class="book author">by Jeremy Kieth</span>
-            </a>
-          </li>
-          <li class="aba bk2">
-            <a href="http://www.abookapart.com/products/css3-for-web-designers" title="A Book Apart: CSS3 for Web Designers">
-              <span class="book title">CSS3 for Web Designers</span>
-              <span class="book author">by Dan Cederholm</span>
-            </a>
-          </li>
-          <li class="aba bk3">
-            <a href="http://www.abookapart.com/products/the-elements-of-content-strategy" title="A Book Apart: The Elements of Content Strategy">
-              <span class="book title">The Elements of Content Strategy</span>
-              <span class="book author">by Erin Kissane</span>
-            </a>
-          </li>
-          <li class="aba bk4">
-            <a href="http://www.abookapart.com/products/responsive-web-design" title="A Book Apart: Responsive Web Design">
-              <span class="book title">Responsive Web Design</span>
-              <span class="book author">by Ethan Marcotte</span>
-            </a>
-          </li>
-          <li class="manning rails3">
-            <a href="http://manning.com/katz/" title="Rails 3 in Action">
-              <span class="book title">Rails 3 in Action</span>
-              <span class="book author">by Ryan Bigg and Yehuda Katz</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="comp resources">
-        <header>
-          <h1>Sites &amp; Resources</h1>
-        </header>
-        <ul>
-          <li><a href="http://www.fontsquirrel.com/">Font Squirrel <span class='extra'>Handpicked fonts for graphic designers</span></a></li>
-          <li><a href="http://www.google.com/webfonts">Google Web Fonts <span class='extra'>Hundreds of free, open-source fonts optimized for the web</span></a></li>
-          <li><a href="http://necolas.github.com/normalize.css/">normalize.css <span class='extra'>Don't reset, normalize</span></a></li>
-          <li><a href="http://necolas.github.com/normalize.css/">Sprite Cow <span class='extra'>Easily find the background-position, width and height of image on a sprite</span></a></li>
-        </ul>
-      </section>
-      <section class="comp touchme extra">
-        <header>
-          <h1>Stalk Me</h1>
-        </header>
-        <ul>
-          <li class="twitter"><a target="_blank" href="http://twitter.com/tschmidt">@tschmidt</a></li>
-          <li class="twitter"><a target="_blank" href="http://twitter.com/linkluv">@linkluv</a></li>
-          <li class="spotify"><a target="_blank" href="http://open.spotify.com/user/t.schmidt">spotify:t.schmidt</a></li>
-          <li class="github"><a target="_blank" href="http://github.com/tschmidt">github:tschmidt</a></li>
-          <li class="zerply"><a target="_blank" href="http://zerply.com/tschmidt">zerply:tschmidt</a></li>
-        </ul>
-      </section>
-    </footer>
-  </div> <!-- end #wrap -->
+      
+      <div class='row-fluid'>
+        <section class="well bookshelf alt span6">
+          <header>
+            <h3>Currently on my bookshelf</h3>
+          </header>
+          <ul class='unstyled'>
+            <li class="aba bk1">
+              <a href="http://www.abookapart.com/products/html5-for-web-designers" title="A Book Apart: HTML5 for Web Designers">
+                <span class="book title">HTML5 for Web Designers</span>
+                <span class="book author">by Jeremy Kieth</span>
+              </a>
+            </li>
+            <li class="aba bk2">
+              <a href="http://www.abookapart.com/products/css3-for-web-designers" title="A Book Apart: CSS3 for Web Designers">
+                <span class="book title">CSS3 for Web Designers</span>
+                <span class="book author">by Dan Cederholm</span>
+              </a>
+            </li>
+            <li class="aba bk3">
+              <a href="http://www.abookapart.com/products/the-elements-of-content-strategy" title="A Book Apart: The Elements of Content Strategy">
+                <span class="book title">The Elements of Content Strategy</span>
+                <span class="book author">by Erin Kissane</span>
+              </a>
+            </li>
+            <li class="aba bk4">
+              <a href="http://www.abookapart.com/products/responsive-web-design" title="A Book Apart: Responsive Web Design">
+                <span class="book title">Responsive Web Design</span>
+                <span class="book author">by Ethan Marcotte</span>
+              </a>
+            </li>
+            <li class="manning rails3">
+              <a href="http://manning.com/katz/" title="Rails 3 in Action">
+                <span class="book title">Rails 3 in Action</span>
+                <span class="book author">by Ryan Bigg and Yehuda Katz</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+        
+        <div class='span6'>
+          <section class="well resources">
+            <header>
+              <h3>Sites &amp; Resources</h3>
+            </header>
+            <ul class='unstyled'>
+              <li><a href="http://www.fontsquirrel.com/">Font Squirrel <span class='extra'>Handpicked fonts for graphic designers</span></a></li>
+              <li><a href="http://www.google.com/webfonts">Google Web Fonts <span class='extra'>Hundreds of free, open-source fonts optimized for the web</span></a></li>
+              <li><a href="http://necolas.github.com/normalize.css/">normalize.css <span class='extra'>Don't reset, normalize</span></a></li>
+              <li><a href="http://necolas.github.com/normalize.css/">Sprite Cow <span class='extra'>Easily find the background-position, width and height of image on a sprite</span></a></li>
+            </ul>
+          </section>
+          
+          <section class="well touchme extra">
+            <header>
+              <h3>Stalk Me</h3>
+            </header>
+            <ul class='unstyled'>
+              <li class="twitter"><a target="_blank" href="http://twitter.com/tschmidt">@tschmidt</a></li>
+              <li class="twitter"><a target="_blank" href="http://twitter.com/linkluv">@linkluv</a></li>
+              <li class="spotify"><a target="_blank" href="http://open.spotify.com/user/t.schmidt">spotify:t.schmidt</a></li>
+              <li class="github"><a target="_blank" href="http://github.com/tschmidt">github:tschmidt</a></li>
+              <li class="zerply"><a target="_blank" href="http://zerply.com/tschmidt">zerply:tschmidt</a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </footer>
 	
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
