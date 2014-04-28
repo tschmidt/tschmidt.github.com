@@ -1,0 +1,33 @@
+---
+layout: default
+title: Fuck Your TDD
+tags:
+  ["articles", "tdd", "railsconf"]
+blurb: David Heinemeier Hansson [DHH] shocked a lot of people with his opening keynote at this years RailsConf. Not only did he coin the term "software writer", he also ignited some pretty heated debate about Test Driven Design [TDD].
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+
+<article>
+  {% include page_header.html %}
+
+  <p>I think some people may have missed the mark though. I've read a lot of tweets and posts around the internets that state something along the lines of "DHH thinks writing tests is a waste of time". If that's what you've taken away from the keynote, you weren't really listening.</p>
+
+  <p>It's not that DHH has an issue with tests. The question he raises is whether TDD is really the best way of building software. After writing software for over a decade, he has found that - and this is the key part - <em>for him</em> TDD has not yielded a better, clearer design.</p>
+
+  <p>He still believes that tests are important. In fact, <a href='https://www.youtube.com/watch?v=Wp_tTfoCXYg&feature=youtu.be' target='_blank'>during a follow up interview</a> he even states that "tests aren't bad" and that "any modern-day application requires them". He merely suggests that driving the design of your application through tests may not be the best solution.</p>
+
+  <p>The current debate occurring online right now is leaving out a lot of context. The most obvious missing piece is that this is an opinion that DHH has formed through his own experience.</p>
+
+  <p>Did you catch that? Opinion. More specifically, his own opinion.</p>
+
+  <p>Just because it's DHH - founder of the framework for the conference you just attended - doesn't mean that his opinions should be converted to law.</p>
+
+  <p>It's an opinion. If it happens to resonate with you, then great. If it doesn't, that's still great. That's what's awesome about being a developer. You find the tools and techniques that work for you.</p>
+
+  <p>I think what most people have an issue with is the way in which he presented his opinion. There were definite jabs made. But that's DHH. Anyone who has ever seen him speak or read his blog knows that he's not one to shy away from making a splash.</p>
+
+  <p>I really hope that the community will see this as a topic that should elicit open conversation about software developer workflows and not continue to be a reason to sling shit.</p>
+</article>
