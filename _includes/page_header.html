@@ -1,7 +1,7 @@
 <header>
-  <h2 class='article-title'>{{ page.title }}</h2>
+  <h2 class='article-title large'>{{ page.title }}</h2>
 </header>
-<aside class='article-meta'>
+<aside class='article-meta fullpage'>
   <ul class='unstyled'>
     <li class="date"><strong>{{ page.date | date_to_string }}</strong></li>
     <li class="tags">{{ page.tags | sort | array_to_sentence_string }}</li>

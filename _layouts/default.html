@@ -5,30 +5,34 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
 	<title>SchmidtHappens | {{ page.title }}</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="author" content="Terry Schmidt">
 	
 	<link href='http://plus.google.com/103688769817504697011/' rel='author'/>
-	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" href="/css/pygments-friendly.css">
+  <link href='/css/site.css' rel='stylesheet'>
+  <link href='/css/responsive.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/pygments-friendly.css">
+  
   {% if page.jquery %}
   <script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
   {% endif %}
 	<script src="/js/libs/modernizr-2.0.min.js"></script>
 	<script src="/js/libs/respond.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   
-  <header>
-    <div class='container clearfix'>
-      <h1 class="pull-left"><a href='/'>Schmidt<span>Happens</span></a></h1>
+  <header role='main'>
+    <div class='container'>
+      <a href='/' class='pull-left'>
+        <h1>
+          Schmidt<span>Happens</span>
+        </h1>
+      </a>
+
       <nav role="navigation" class='pull-right'>
-        <ul class="nav nav-pills">
+        <ul>
           <li id="n-articles">
             <a href='/articles.html'>
               Articles
@@ -102,7 +106,7 @@
             <li class="aba bk1">
               <a href="http://www.abookapart.com/products/html5-for-web-designers" title="A Book Apart: HTML5 for Web Designers">
                 <span class="book title">HTML5 for Web Designers</span>
-                <span class="book author">by Jeremy Kieth</span>
+                <span class="book author">by Jeremy Keith</span>
               </a>
             </li>
             <li class="aba bk2">

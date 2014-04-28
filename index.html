@@ -5,9 +5,9 @@ title: On the Path to Enlightenment
 
 {% for post in paginator.posts %}
 <article>
-  <div class='row'>
-    <aside class='span3 article-meta'>
-      <ul class='unstyled'>
+  <div>
+    <aside class='article-meta'>
+      <ul>
         <li class="date"><strong>{{ post.date | date_to_string }}</strong></li>
         <li class="tags">
           {{ post.tags | sort | array_to_sentence_string }}
@@ -15,14 +15,13 @@ title: On the Path to Enlightenment
       </ul>
     </aside>
     
-    <div class='span9'>
+    <div>
       <header>
         <h2 class='article-title'><a href="{{ post.url }}">{{ post.title }}</a></h2>
       </header>
 
       <p>
-        {{ post.blurb }}<br>
-        <a href="{{ post.url }}#continue">Read More...</a>
+        {{ post.blurb }}
       </p>
     </div>
   </div>

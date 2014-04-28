@@ -1,0 +1,17 @@
+@media screen and (min-width: 1440px) {
+  .article-container {
+    position: relative;
+  }
+  
+  .article-meta.fullpage {
+    position: absolute;
+    top: 3px;
+    left: -180px;
+    width: 180px;
+    text-align: right;
+  }
+  
+  .article-meta.fullpage ul {
+    margin: 0;
+  }
+}
