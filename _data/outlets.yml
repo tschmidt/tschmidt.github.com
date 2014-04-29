@@ -1,0 +1,11 @@
+- name: twitter/tschmidt
+  title: The personal twitter account for Terry Schmidt
+  url: https://twitter.com/tschmidt
+
+- name: twitter/linkluv
+  title: The twitter account I use to show some link love
+  url: https://twitter.com/linkluv
+
+- name: github/tschmidt
+  title: A collection of projects I work on
+  url: https://github.com/tschmidt

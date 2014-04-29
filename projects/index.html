@@ -9,51 +9,15 @@ title: The babies I've birthed without an epidural
   </header>
   
   <p>
-    The following are my open source projects. Please feel free to use them, fork
-    them, love them or hate them.
+    Here are a few projects that I created. You can find more at github. Enjoy!
   </p>
   
-  <div class='row-fluid'>
-    <div class='span4'>
-      <div class='well well-showcase'>
-        <h3><a href="http://schmidt-happens.com/timer360">timer360</a></h3>
-        <p>
-          timer360 is a jQuery plugin that creates an animated timer. It's based
-          on the iTunes preview animation.
-        </p>
-      </div>
+  {% for project in site.data.projects %}
+    <div class='well'>
+      <h3><a href="{{ project.url }}" target='_blank' title=''>{{ project.name }}</a></h3>
+      <p>
+        {{ project.description }}
+      </p>
     </div>
-    
-    <div class='span4'>
-      <div class='well well-showcase'>
-        <h3><a href="http://schmidt-happens.com/menu_roll">menu_roll</a></h3>
-        <p>
-          menu_roll is a jQuery plugin that creates an animated menu for use on
-          your website.
-        </p>
-      </div>
-    </div>
-    
-    <div class='span4'>
-      <div class='well well-showcase'>
-        <h3><a href="http://schmidt-happens.com/content_player">content_player</a></h3>
-        <p>
-          content_player is a jQuery plugin that is my contribution to the mass
-          of slideshow plugins.
-        </p>
-      </div>
-    </div>
-  </div>
-
-	<div class='row-fluid'>
-    <div class='span4'>
-      <div class='well well-showcase'>
-        <h3><a href="http://schmidt-happens.com/jquery.puppeteer/">jQuery.puppeteer</a></h3>
-        <p>
-          jQuery.puppeteer is a jQuery plugin that allows you to control elements on the page
-					when they scroll into the viewport.
-        </p>
-      </div>
-    </div>
-  </div>
+  {% endfor %}
 </article>

@@ -16,6 +16,10 @@ lighter grey: #dfdfdf;
 COMMON STYLES
 ************************************/
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   color: #595959;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -39,6 +43,18 @@ a {
 
 a:hover {
   color: #4A87D1;
+}
+
+.well-container {
+  overflow: hidden;
+}
+
+.well {
+  background-color: #000;
+  color: #8f8f8f;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 3px;
 }
 
 
@@ -108,7 +124,7 @@ ARTICLES
 .article-container {
   font-family: serif;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 1024px;
   padding: 0 20px 60px;
 }
 
@@ -178,9 +194,8 @@ footer[role='main'] .container {
   max-width: 960px;
 }
 
-footer[role='main'] a {
-  display: block;
-  padding: 0 0 5px;
+footer[role='main'] li {
+  padding: 0 0 10px;
 }
 
 footer[role='main'] a:hover {

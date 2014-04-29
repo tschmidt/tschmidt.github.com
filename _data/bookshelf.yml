@@ -1,0 +1,24 @@
+- title: HTML5 for Web Designers
+  author: Jeremy Keith
+  book_url: http://www.abookapart.com/products/html5-for-web-designers
+  author_url: http://adactio.com
+
+- title: "Practical Object Oriented Design in Ruby: An Agile Primer"
+  author: Sandi Metz
+  book_url: http://www.poodr.com
+  author_url: https://twitter.com/sandimetz
+
+- title: The Elements of Content Strategy
+  author: Erin Kissane
+  book_url: http://www.abookapart.com/products/the-elements-of-content-strategy
+  author_url: http://incisive.nu/about/
+
+- title: Rails 4 in Action
+  authors:
+    - name: Ryan Bigg
+      author_url: http://ryanbigg.com
+    - name: Yehuda Katz
+      author_url: http://yehudakatz.com
+    - name: Steve Klabnik
+      author_url: http://words.steveklabnik.com
+

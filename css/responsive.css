@@ -2,6 +2,16 @@
   header[role='main'] h1 {
     font-size: 2.5rem;
   }
+  
+  footer .well {
+    float: left;
+    width: 45%;
+    margin: 0 2.5% 20px;
+  }
+  
+  footer .well:nth-child(3n) {
+    clear: left;
+  }
 }
 
 @media screen and (min-width: 1440px) {

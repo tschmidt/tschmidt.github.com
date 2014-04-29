@@ -1,0 +1,15 @@
+- name: jQuery.puppeteer
+  url: http://schmidt-happens.com/jquery.puppeteer/
+  description: jQuery.puppeteer is a jQuery plugin that allows you to control elements on the page when they scroll into the viewport.
+
+- name: DEVEN
+  url: https://github.com/tschmidt/deven
+  description: An automated script that will set up a new DEVelopment ENvironment. This is great when setting up or reloading a developer machine.
+
+- name: tschmidt.github.com
+  url: https://github.com/tschmidt/tschmidt.github.com
+  description: The source code for this website. Feel free to fork it and try it out yourself.
+
+- name: jQuery.timer360
+  url: http://schmidt-happens.com/timer360/
+  description: imer360 was inspired by the "time remaining" animation that you see in iTunes 9 while playing a sample of music. I was working on a project that needed a countdown timer and I thought, what the hell...why not try and emulate that. Thus was born the timer360.

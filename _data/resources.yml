@@ -1,0 +1,11 @@
+- name: Font Squirrel
+  title: Handpicked fonts for graphic designers
+  url: http://www.fontsquirrel.com
+
+- name: Google Web Fonts
+  title: Hundreds of free, open-source fonts optimized for the web
+  url: http://google.com/fonts
+
+- name: normalize.css
+  title: Make browsers render all elements more consistently
+  url: http://necolas.github.io/normalize.css/
