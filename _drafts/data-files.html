@@ -1,0 +1,76 @@
+---
+layout: default
+title: Jekyll Data Files
+tags:
+  ["tips", "jekyll", "data files"]
+blurb: I moved to using data files for this site. Let me walk you through how and why I decided to do that.
+published: false
+categories:
+  ["tips"]
+comments: true
+---
+
+<article>
+  {% include page_header.html %}
+  <p>
+    I was perusing the Jekyll documentation when I came across the <a href='http://jekyllrb.com/docs/datafiles/' target='_blank'>section about data files</a>.
+    As soon as I read through the docs, I realized I had the perfect place to use them. In
+    fact, I had several candidates that could be converted to using data files.
+  </p>
+  
+  <p>
+    I decided that I would move the content in my site footer - bookshelf, sites &amp;
+    resource, and social outlets - to data files. In order to do this, I created a
+    <code>_data/</code> folder in the root directory of my sites project.
+  </p>
+  
+  <p>
+    Next, I created a <code>YAML</code> file for each of the sections. The files themselves
+    are pretty basic. Here's the <code>resources.yml</code> file as an example.
+  </p>
+  
+  {% highlight yaml linenos %}
+- name: Font Squirrel
+  title: Handpicked fonts for graphic designers
+  url: http://www.fontsquirrel.com
+
+- name: Google Web Fonts
+  title: Hundreds of free, open-source fonts optimized for the web
+  url: http://google.com/fonts
+
+- name: normalize.css
+  title: Make browsers render all elements more consistently
+  url: http://necolas.github.io/normalize.css/{% endhighlight %}
+  
+  <p>
+    Now, in my HTML files, I can reference this data using <code>site.data.data_file_name</code>.
+    You would need to change <code>data_file_name</code> to the name of the file you created
+    under the <code>_data/</code> folder. In my example, it would be <code>site.data.resources</code>.
+  </p>
+  
+  <p>
+    Looping through the collection is done just like any other <a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers#for-loops' target='_blank'>collection with the Liquid
+        Templating Language</a>.
+  </p>
+  
+  {% highlight html linenos %}
+<section class="well">
+  <header>
+    <h3>Sites &amp; Resources</h3>
+  </header>
+  <ul class='unstyled'>
+    {% raw %}{% for resource in site.data.resources %}
+      <li>
+        <a href='{{ resource.url }}' target='_blank' title='{{ resource.title }}'>{{ resource.name }}</a>
+      </li>
+    {% endfor %}{% endraw %}
+  </ul>
+</section>{% endhighlight %}
+
+  <p>
+    And that's really all there is to it. This is a great way to clean things up a bit and
+    makes it incredibly easy to add entries anytime I want.
+  </p>
+  
+  {% include article_footer.html %}
+</article>

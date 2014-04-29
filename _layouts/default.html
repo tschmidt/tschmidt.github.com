@@ -108,7 +108,7 @@
               
               {% if book.authors %}
                 {% for author in book.authors %}
-                  <a href='{{author.author_url}}' target='_blank'>{{ author.name }}</a>{% if book.authors[-2] == author %} and {% elsif book.authors[-1] == author %}{% else %}, {% endif %}
+                  <a href='{{author.author_url}}' target='_blank'>{{ author.name }}</a>{% if book.authors[-2] == author %} and {% elsif forloop.last %}{% else %}, {% endif %}
                 {% endfor %}
               {% endif %}
             </li>
