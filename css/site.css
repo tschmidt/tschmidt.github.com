@@ -68,6 +68,7 @@ header[role='main'] h1 {
   margin: 0;
   padding: 20px 0;
   text-align: center;
+  transition: .6s ease;
 }
 
 header[role='main'] h1 span {
@@ -108,7 +109,7 @@ ARTICLES
   font-family: serif;
   margin: 0 auto;
   max-width: 960px;
-  padding: 0 20px;
+  padding: 0 20px 60px;
 }
 
 .article-meta {
@@ -136,12 +137,14 @@ ARTICLES
 
 
 /************************************
-FOOTER
+PAGINATION
 ************************************/
 
 .pager {
+  border-top: 1px solid #8f8f8f;
   overflow: hidden;
-  margin: 30px 0;
+  margin: 30px 0 0;
+  padding-top: 60px;
 }
 
 .pager .disabled a {
