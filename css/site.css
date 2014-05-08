@@ -54,6 +54,7 @@ a:hover {
   color: #8f8f8f;
   padding: 20px;
   margin-bottom: 20px;
+  border: 1px solid $darkGrey;
   border-radius: 3px;
 }
 

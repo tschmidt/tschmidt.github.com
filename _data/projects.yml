@@ -12,4 +12,4 @@
 
 - name: jQuery.timer360
   url: http://schmidt-happens.com/timer360/
-  description: imer360 was inspired by the "time remaining" animation that you see in iTunes 9 while playing a sample of music. I was working on a project that needed a countdown timer and I thought, what the hell...why not try and emulate that. Thus was born the timer360.
+  description: jQuery.timer360 was inspired by the "time remaining" animation that you see in iTunes 9 while playing a sample of music. I was working on a project that needed a countdown timer and I thought, what the hell...why not try and emulate that. Thus was born the timer360.
