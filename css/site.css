@@ -20,6 +20,18 @@ COMMON STYLES
   box-sizing: border-box;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  border: 1px solid #8f8f8f;
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
 body {
   color: #595959;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

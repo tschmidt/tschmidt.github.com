@@ -1,0 +1,66 @@
+---
+layout: default
+title: Don't Use <code>system</code> When Suppressing STDOUT
+tags:
+  ["tips", "ruby", "hacks"]
+blurb: I recently needed to test the structure of a generated project and wanted to suppress <code>STDOUT</code>. Don't use <code>system</code>.
+published: true
+categories:
+  ["tips"]
+comments: true
+---
+
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    Okay, let me give you a little more detail. I just started playing around with using 
+    <a href="http://whatisthor.com" target="_blank">Thor</a> to create a custom generator. One of the things I noticed immediately was that 
+    the output for the site creation was showing up every time a test called the generator.
+    This is really annoying and I wanted to suppress the chatter.
+  </p>
+  
+  <p>
+    After doing some searching around the internets, I discovered that I could temporarily
+    change <code>$stdout</code> to use <code>StringIO</code>. Then, when I was done, switch
+    it back to use the original <code>$stdout</code>. Here's the code for clarification:
+  </p>
+  
+  {% highlight ruby %}
+def capture(stream)
+  begin
+    stream = stream.to_s
+    eval "$#{stream} = StringIO.new"
+    yield
+    result = eval("$#{stream}").string
+  ensure
+    eval("$#{stream} = #{stream.upcase}")
+  end
+
+  result
+end
+  {% endhighlight %}
+  
+  <p>
+    After implementing this code, I was still getting output in my tests.
+  </p>
+  
+  <figure>
+    <img src="/images/articles/dont-use-system/system_test_run.png" alt="Screenshot of test run using the system command">
+  </figure>
+  
+  <p>It. Drove. Me. Nuts.</p>
+  
+  <p>
+    I did a little more research and discovered that the <code>system</code> method will
+    invoke the command <em>in a subshell</em>. In order to capture <code>$stdout</code> 
+    properly, you will want to use either <code>%x{cmd}</code> or <code>`cmd`</code>
+    formats.
+  </p>
+  
+  <figure>
+    <img src="/images/articles/dont-use-system/backtick_test_run.png" alt="Screenshot of test run using the system command">
+  </figure>
+  
+  {% include article_footer.html %}
+</article>
