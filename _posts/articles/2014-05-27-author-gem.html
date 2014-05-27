@@ -1,0 +1,122 @@
+---
+layout: default
+title: Introducing the Author Gem
+tags:
+  ["articles", "gems", "ebooks", "writing"]
+blurb: "I've been working on a ruby gem that makes authoring ebooks super simple. If simplicity is what you like, then you are in for a treat!"
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+<article>
+  {% include page_header.html %}
+  <p>
+    So, <a href="{% post_url articles/2014-05-08-writing-a-book %}" title="I'm writing a book!">a few weeks ago</a>
+    I announced that I was going to start writing a book. Turns out, writing the content was
+    the easy part. I naively thought "this is 2014, writing an ebook should be super simple!".
+  </p>
+  
+  <p>
+    I could not have been more wrong.
+  </p>
+  
+  <p>
+    I have literally gone through every option that is out there. I started with <a href="http://leanpub.com" target="_blank">Leanpub</a>
+    because I have purchased a few books through them and I thought they would have mastered the
+    process by now. Unfortunately, I didn't have a great experience.
+  </p>
+  
+  <p>
+    Local development was a pain-in-the-ass. Every time I wanted to preview my book, I'd have to
+    go to the website, find my book, click a button, wait a while, then open dropbox, then open
+    the file, then AAAAAAAAAAAAAGGGGGGGGGHHHHHHHHHHHH!!!!!
+  </p>
+  
+  <p>
+    It was a nightmare.
+  </p>
+  
+  <p>
+    I looked at various ways of replicating what they were doing and eventually said "fuck that"
+    and went in search of other tools. I found <a href="https://github.com/fnando/kitabu" target="_blank">Kitabu</a>
+    and <a href="https://github.com/tractical/wordsmith">Wordsmith</a>. They both have a similar
+    approach to generating various ebook formats and while they came close, there were still
+    things I was missing.
+  </p>
+  
+  <p>
+    Finally, I threw in the towel and decided that if I wanted to get this book out, I was going
+    to have to build my own tool. The first thing I did was to dive head first into the world of
+    ebook formats.
+  </p>
+  
+  <p>
+    Holy. Shit.
+  </p>
+  
+  <p>
+    This is a terrifying place where nightmares don't even dare to go. The documentation is not at
+    all where it needs to be. <a href="http://www.baldurbjarnason.com/notes/treat-ebook-developers-as-developers/" target="_blank">This article</a>
+    pretty much nails the current state of ebook documentation...AND IT WAS WRITTEN AT THE BEGINNING
+    OF 2012!!!
+  </p>
+  
+  <p>
+    Anyway, I finally pieced together enough of the puzzle to have a clear idea of what I had to
+    do from the HTML side of things. Then, I went through the <a href="http://www.w3.org/TR/css3-page/" target="_blank">CSS3 Paged Media Module</a> documentation
+    on the W3 website. That's right. The working draft documentation *shudders*. That armed me with enough information to get the CSS out of the way.
+  </p>
+  
+  <p>
+    All I had to do now was find tools that would allow me to convert an HTML - well, actually,
+    an XHTML - site into various ebook formats. I searched high and low for the best solutions
+    and ultimately landed on three different tools:
+  </p>
+  
+  <ul>
+    <li>KindleGen: This is a tool from Amazon and converts HTML and epub into the .mobi format</li>
+    <li>Prince XML: This is a tool that will generate a PDF from HTML files</li>
+    <li>eeepub: This is a ruby gem that converts HTML to .epub format</li>
+  </ul>
+  
+  <p>
+    While KindleGen and eeepub are free, Prince XML is not. A single user license will run you
+    around $500! Luckily, the free download is a fully functioning package. The only thing it does
+    is add a small icon to the first page of the PDF.
+  </p>
+  
+  <p>
+    Honestly, it's worth the $500 for the license if you plan on writing a lot of books. It is
+    hands-down the easiest tool I experimented with.
+  </p>
+  
+  <p>
+    Now that I had all the pieces, I just had to build a tool that brought everything together.
+    And that, ladies and gents, is when <a href="http://github.com/tschmidt/author" target="_blank">Author</a>
+    was born.
+  </p>
+  
+  <p>
+    The premise is super simple. Write your chapters in Markdown. Specify what order they should
+    appear in using a plain 'ol text file. Then run a build command for the desired format and bam!
+    So 'ello to your shiny new ebook.
+  </p>
+  
+  <p>
+    I've decided to rely on <a href="http://kramdown.gettalong.org" target="_blank">Kramdown</a>
+    for the markdown processor. There are several reasons for that but the biggest is that it 
+    allows for a lot more formatting options. I'm also using <a href="http://liquidmarkup.org" target="_blank">Liquid</a>
+    to add in some extra functionality.
+  </p>
+  
+  <p>
+    I've been using it for the last few days, and, so far, it has performed beyond what I even hoped for
+    when I started building it. There are still <a href="https://github.com/tschmidt/author/blob/master/TODO.md" target="_blank">a few things to work out</a>
+    but I'm very pleased with how simple it is to use.
+  </p>
+  
+  <p>
+    If you're reading this and you decide to go try it out, I would love to get some feedback!
+  </p>
+</article>
