@@ -116,7 +116,7 @@ resources :favorite_projects, only: [:create, :destroy]
   <p>
     Finally, I created the controller which would use the <code>current_user</code> method to
     set the user for the favorite instance. For the create action, I passed a param called
-    <code>project_id</code> since and id in the params hash for create wouldn't work. For that
+    <code>project_id</code> since an <code>id</code> in the <code>params</code> hash for create wouldn't work. For that
     reason, I have to find the project based on either <code>params[:id]</code> or 
     <code>params[:project_id]</code>. Here is the entire <code>FavoriteProjectsController</code>:
   </p>
