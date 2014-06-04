@@ -1,4 +1,4 @@
 markdown: rdiscount
-pygments: true
+highlighter: pygments
 paginate: 10
 excerpt_separator: ""   # Workaround for http://blog.slaks.net/2013-08-09/jekyll-tag-was-never-closed

@@ -1,0 +1,167 @@
+---
+layout: default
+title: Add a Favoriting System to a Rails Project
+tags:
+  ["articles", "rails", "howto"]
+blurb: Have you ever wanted to add a favoriting system to your Rails project? I just recently had a need for this and decided I'd share how I did it.
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+<article>
+  {% include page_header.html %}
+  
+  <h3>The Setup</h3>
+  
+  <p>
+    I've been working on a new project at work recently, and I needed a way to allow
+    users to favorite projects. Now, this is something that is quite common with a lot of
+    web applications today and I figured there would be ample documentation on the best way
+    to do this. Unfortunately, I was mistaken.
+  </p>
+  
+  <p>
+    While I did find a few articles, most of them seemed overly complex. So, with coffee in hand,
+    I sat and pondered this problem for a while.
+  </p>
+  
+  <p>
+    I have a <code>users</code> model. I have a <code>projects</code> model. I want users to be
+    able to favorite projects. Sounds pretty simple. I could easily do this with a <code>HABTM</code>
+    but I wanted it to be a bit more flexible. What if later, I want users to favorite users?
+  </p>
+  
+  <p>
+    Okay, so a <code>HABTM</code> wasn't the answer. What I really needed was a polymorphic
+    relationship. A user has many favorites and any other model can be favorited.
+  </p>
+  
+  <h3>The Models</h3>
+  
+  <p>
+    This sounded way too simple. So I set out to test my theory. The first thing I did was to
+    create the <code>favorites</code> table:
+  </p>
+  
+  {% highlight console %}
+bundle exec rails generate model favorite user:references favorited:references{polymorphic}{% endhighlight %}
+
+  <p>
+    This creates a migration that looks like this:
+  </p>
+  
+  {% highlight ruby %}
+class CreateFavorites < ActiveRecord::Migration
+  def change
+    create_table :favorites do |t|
+      t.references :favorited, polymorphic: true, index: true
+      t.references :user, index: true
+
+      t.timestamps
+    end
+  end
+end{% endhighlight %}
+
+  <p>
+    It also generated the model for me, which looks like this:
+  </p>
+  
+  {% highlight ruby %}
+class Favorite < ActiveRecord::Base
+  belongs_to :favorited, polymorphic: true
+  belongs_to :user
+end{% endhighlight %}
+
+  <p>
+    After running <code>rake db:migrate</code>, I moved onto the user model. I wanted to be able
+    to get all the favorites, but I also wanted a way of returning just favorited projects. This
+    will come in handy later when I start adding other models to the favoriting system. Again,
+    this is pretty simple to do:
+  </p>
+  
+  {% highlight ruby %}
+class User < ActiveRecord::Base
+  has_many :favorites
+  has_many :favorite_projects, through: :favorites, source: :favorited, source_type: 'Project'
+end{% endhighlight %}
+
+  <p>
+    That is literally all you have to do with regards to the models. You can now CRUD favorites.
+    If the <code>favorited</code> relationship happens to be a project, on the user object you can
+    now call <code>user.favorite_projects</code> and it will return only favorited projects. Neat.
+  </p>
+  
+  <h3>The Controller</h3>
+  
+  <p>
+    I didn't want to muck up the users controller or the projects controller with favoriting
+    details. The act of creating a "favorite" isn't really the responsibility of either the user
+    or the project.
+  </p>
+  
+  <p>
+    Instead, I created a completely separate resource called <code>favorite_projects</code>. In
+    the future, I will probably make this more generic, but for now, users will only be able to
+    favorite projects. I had to add a new line in the routes file to make this happen and also
+    wanted to ensure that only <code>create</code> and <code>destroy</code> actions were
+    supported:
+  </p>
+  
+  {% highlight ruby %}
+...
+resources :favorite_projects, only: [:create, :destroy]
+...{% endhighlight %}
+
+  <p>
+    Finally, I created the controller which would use the <code>current_user</code> method to
+    set the user for the favorite instance. For the create action, I passed a param called
+    <code>project_id</code> since and id in the params hash for create wouldn't work. For that
+    reason, I have to find the project based on either <code>params[:id]</code> or 
+    <code>params[:project_id]</code>. Here is the entire <code>FavoriteProjectsController</code>:
+  </p>
+  
+  {% highlight ruby %}
+class FavoriteProjectsController < ApplicationController
+  before_action :set_project
+  
+  def create
+    if Favorite.create(favorited: @project, user: current_user)
+      redirect_to @project, notice: 'Project has been favorited'
+    else
+      redirect_to @project, alert: 'Something went wrong...*sad panda*'
+    end
+  end
+  
+  def destroy
+    Favorite.where(favorited_id: @project.id, user_id: current_user.id).first.destroy
+    redirect_to @project, notice: 'Project is no longer in favorites'
+  end
+  
+  private
+  
+  def set_project
+    @project = Project.find(params[:project_id] || params[:id])
+  end
+end
+{% endhighlight %}
+  
+  <h3>In Closing</h3>
+  
+  <p>
+    Now, all I have to do in order to use this feature is generate a create or delete URL:
+  </p>
+  
+  {% highlight ruby %}
+<%- unless current_user.favorite_projects.exists?(id: @project.id) -%>
+<%= link_to 'Add to favorites', favorite_projects_path(project_id: @project), method: :post %>
+<%- else -%>
+<%= link_to 'Remove from favorites', favorite_project_path(@project), method: :delete %>
+<%- end -%>{% endhighlight %}
+  
+  <p>
+    The best part about this is that I can easily modify this to accept any other model in my
+    app that should have favoriting. I hope this is helpful to anyone reading this. Let me know
+    if you use this technique or if I missed anything.
+  </p>
+</article>
