@@ -1,0 +1,186 @@
+---
+layout: default
+title: Better Code Blocks with Liquid
+tags:
+  ["articles", "rails", "howto"]
+blurb: I created a Liquid plugin that allows you to add much sexier code blocks to your site.
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    While creating the <a href='https://github.com/tschmidt/author'>Author gem</a>, I
+    ended up creating a Liquid plugin that allowed me to create much nicer code blocks.
+  </p>
+  
+  <p>
+    I just recently extracted out the code into <a href='https://github.com/tschmidt/liquid-awesome-codeblock'>its own plugin on github</a>
+    and wanted to give you a taste of what it can do. Set up is pretty simple if you are
+    using Jekyll and I have instructions on how to do this in the README for the project.
+    All of the examples below show the code used to get the code block to display. It's
+    very meta.
+  </p>
+  
+  <p>
+    This is the vanilla version:
+  </p>
+  
+  {% awesome_codeblock %}
+{{ '{% awesome_codeblock ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+  
+  <p>
+    What if you wanted to add a title?
+  </p>
+
+  {% awesome_codeblock title:"This is a title" %}
+{{ '{% awesome_codeblock title:"This is a title" ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+
+  <p>
+    This is perfect for adding the file you are talking about!
+  </p>
+
+  {% awesome_codeblock title:"path/to/file.extension" %}
+{{ '{% awesome_codeblock title:"path/to/file.extension" ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+
+  <p>
+    You want some line numbers? Okay. You can do that too.
+  </p>
+
+  {% awesome_codeblock show_line_numbers:true %}
+{{ '{% awesome_codeblock show_line_numbers:true ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+
+  <p>
+    Want some code highlighting? Got that covered.
+  </p>
+
+  {% awesome_codeblock lang:ruby %}
+{{ '{% awesome_codeblock lang:ruby ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+
+  <p>
+    Here's one of my favorites. How about highlighting a specific line? Say, one where
+    something changed and you really want to draw attention to it.
+  </p>
+
+  {% awesome_codeblock %}
+{{ '{% awesome_codeblock highlight:"3" ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+  
+  <p>
+    Would produce...
+  </p>
+  
+  {% awesome_codeblock highlight:'3' %}
+class Thing < ParentThing
+  def say_hello
+    puts 'ZOMG, Hello!'
+  end
+end
+  {% endawesome_codeblock %}
+
+  <p>
+    Showing part of a file and you don't want to start on line 1? Your wish is my command.
+  </p>
+
+  {% awesome_codeblock %}
+{{ '{% awesome_codeblock start_at:25 ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+  
+  <p>
+    Would produce...
+  </p>
+  
+  {% awesome_codeblock start_at:25 %}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+  {% endawesome_codeblock %}
+
+  <p>
+    Just keep in mind that if you start at a different number, and you want to highlight
+    lines, they will need to be relative to the starting number.
+  </p>
+
+  {% awesome_codeblock %}
+{{ '{% awesome_codeblock start_at:25 highlight:"26,27,28" ' }}%}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+{{ '{% endawesome_codeblock ' }}%}
+  {% endawesome_codeblock %}
+  
+  <p>
+    Would produce...
+  </p>
+  
+  {% awesome_codeblock start_at:25 highlight:"26,27,28" %}
+class Thing < ParentThing
+  def say_hello
+    puts 'Hello!'
+  end
+end
+  {% endawesome_codeblock %}
+  
+  <p>
+    The styles I'm using are from the default styles in the <a href="https://github.com/tschmidt/liquid-awesome-codeblock/tree/master/assets/stylesheets">project on Github</a>. You can 
+    copy them exactly or use them for inspiration and make your own.
+  </p>
+  
+  <p>
+    Now go! Have some fun making code blocks more awesome!
+  </p>
+</article>
