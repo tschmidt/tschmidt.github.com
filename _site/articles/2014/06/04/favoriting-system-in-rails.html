@@ -1,0 +1,373 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>SchmidtHappens | Add a Favoriting System to a Rails Project</title>
+	<meta name="author" content="Terry Schmidt">
+	
+	<link href='http://plus.google.com/103688769817504697011/' rel='author'/>
+  <link href='/css/normalize.css' rel='stylesheet'>
+  <link href='/css/site.css' rel='stylesheet'>
+  <link href='/css/responsive.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/pygments-friendly.css">
+  
+  
+	<script src="/js/libs/modernizr-2.0.min.js"></script>
+	<script src="/js/libs/respond.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  
+  <header role='main'>
+    <div class='container'>
+      <a href='/' class='pull-left'>
+        <h1>
+          Schmidt<span>Happens</span>
+        </h1>
+      </a>
+
+      <nav role="navigation" class='pull-right'>
+        <ul>
+          <li id="n-articles">
+            <a href='/articles'>
+              Articles
+            </a>
+          </li>
+          <li id="n-tips">
+            <a href='/tips'>
+              Tips
+            </a>
+          </li>
+          <li id="n-about">
+            <a href='/about'>
+              About
+            </a>
+          </li>
+          <li id="n-projects">
+            <a href='/projects'>
+              Projects
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class='container article-container'>
+    <article>
+  <header>
+  <h2 class='article-title large'>Add a Favoriting System to a Rails Project</h2>
+</header>
+<aside class='article-meta fullpage'>
+  <ul class='unstyled'>
+    <li class="date"><strong>04 Jun 2014</strong></li>
+    <li class="tags">articles, howto, and rails</li>
+  </ul>
+</aside>
+<p>Have you ever wanted to add a favoriting system to your Rails project? I just recently had a need for this and decided I'd share how I did it.<span id="continue"></span></p>
+  
+  <h3>The Setup</h3>
+  
+  <p>
+    I've been working on a new project at work recently, and I needed a way to allow
+    users to favorite projects. Now, this is something that is quite common with a lot of
+    web applications today and I figured there would be ample documentation on the best way
+    to do this. Unfortunately, I was mistaken.
+  </p>
+  
+  <p>
+    While I did find a few articles, most of them seemed overly complex. So, with coffee in hand,
+    I sat and pondered this problem for a while.
+  </p>
+  
+  <p>
+    I have a <code>users</code> model. I have a <code>projects</code> model. I want users to be
+    able to favorite projects. Sounds pretty simple. I could easily do this with a <code>HABTM</code>
+    but I wanted it to be a bit more flexible. What if later, I want users to favorite users?
+  </p>
+  
+  <p>
+    Okay, so a <code>HABTM</code> wasn't the answer. What I really needed was a polymorphic
+    relationship. A user has many favorites and any other model can be favorited.
+  </p>
+  
+  <h3>The Models</h3>
+  
+  <p>
+    This sounded way too simple. So I set out to test my theory. The first thing I did was to
+    create the <code>favorites</code> table:
+  </p>
+  
+  <div class="highlight"><pre><code class="console"><span class="go">bundle exec rails generate model favorite user:references favorited:references{polymorphic}</span></code></pre></div>
+
+  <p>
+    This creates a migration that looks like this:
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">CreateFavorites</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="ss">:favorites</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+      <span class="n">t</span><span class="o">.</span><span class="n">references</span> <span class="ss">:favorited</span><span class="p">,</span> <span class="ss">polymorphic</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">index</span><span class="p">:</span> <span class="kp">true</span>
+      <span class="n">t</span><span class="o">.</span><span class="n">references</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">index</span><span class="p">:</span> <span class="kp">true</span>
+
+      <span class="n">t</span><span class="o">.</span><span class="n">timestamps</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+  <p>
+    It also generated the model for me, which looks like this:
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Favorite</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:favorited</span><span class="p">,</span> <span class="ss">polymorphic</span><span class="p">:</span> <span class="kp">true</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="k">end</span></code></pre></div>
+
+  <p>
+    After running <code>rake db:migrate</code>, I moved onto the user model. I wanted to be able
+    to get all the favorites, but I also wanted a way of returning just favorited projects. This
+    will come in handy later when I start adding other models to the favoriting system. Again,
+    this is pretty simple to do:
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:favorites</span>
+  <span class="n">has_many</span> <span class="ss">:favorite_projects</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:favorites</span><span class="p">,</span> <span class="ss">source</span><span class="p">:</span> <span class="ss">:favorited</span><span class="p">,</span> <span class="n">source_type</span><span class="p">:</span> <span class="s1">&#39;Project&#39;</span>
+<span class="k">end</span></code></pre></div>
+
+  <p>
+    That is literally all you have to do with regards to the models. You can now CRUD favorites.
+    If the <code>favorited</code> relationship happens to be a project, on the user object you can
+    now call <code>user.favorite_projects</code> and it will return only favorited projects. Neat.
+  </p>
+  
+  <h3>The Controller</h3>
+  
+  <p>
+    I didn't want to muck up the users controller or the projects controller with favoriting
+    details. The act of creating a "favorite" isn't really the responsibility of either the user
+    or the project.
+  </p>
+  
+  <p>
+    Instead, I created a completely separate resource called <code>favorite_projects</code>. In
+    the future, I will probably make this more generic, but for now, users will only be able to
+    favorite projects. I had to add a new line in the routes file to make this happen and also
+    wanted to ensure that only <code>create</code> and <code>destroy</code> actions were
+    supported:
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="n">resources</span> <span class="ss">:favorite_projects</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
+<span class="o">.</span><span class="n">.</span><span class="o">.</span></code></pre></div>
+
+  <p>
+    Finally, I created the controller which would use the <code>current_user</code> method to
+    set the user for the favorite instance. For the create action, I passed a param called
+    <code>project_id</code> since an <code>id</code> in the <code>params</code> hash for create wouldn't work. For that
+    reason, I have to find the project based on either <code>params[:id]</code> or 
+    <code>params[:project_id]</code>. Here is the entire <code>FavoriteProjectsController</code>:
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">FavoriteProjectsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">before_action</span> <span class="ss">:set_project</span>
+  
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="k">if</span> <span class="no">Favorite</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">favorited</span><span class="p">:</span> <span class="vi">@project</span><span class="p">,</span> <span class="ss">user</span><span class="p">:</span> <span class="n">current_user</span><span class="p">)</span>
+      <span class="n">redirect_to</span> <span class="vi">@project</span><span class="p">,</span> <span class="ss">notice</span><span class="p">:</span> <span class="s1">&#39;Project has been favorited&#39;</span>
+    <span class="k">else</span>
+      <span class="n">redirect_to</span> <span class="vi">@project</span><span class="p">,</span> <span class="ss">alert</span><span class="p">:</span> <span class="s1">&#39;Something went wrong...*sad panda*&#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">destroy</span>
+    <span class="no">Favorite</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">favorited_id</span><span class="p">:</span> <span class="vi">@project</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">destroy</span>
+    <span class="n">redirect_to</span> <span class="vi">@project</span><span class="p">,</span> <span class="ss">notice</span><span class="p">:</span> <span class="s1">&#39;Project is no longer in favorites&#39;</span>
+  <span class="k">end</span>
+  
+  <span class="kp">private</span>
+  
+  <span class="k">def</span> <span class="nf">set_project</span>
+    <span class="vi">@project</span> <span class="o">=</span> <span class="no">Project</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:project_id</span><span class="o">]</span> <span class="o">||</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+  
+  <h3>In Closing</h3>
+  
+  <p>
+    Now, all I have to do in order to use this feature is generate a create or delete URL:
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="o">&lt;</span><span class="sx">%- unless current_user.favorite_projects.exists?(id: @project.id) -%&gt;</span>
+<span class="sx">&lt;%= link_to &#39;Add to favorites&#39;, favorite_projects_path(project_id: @project), method: :post %&gt;</span>
+<span class="o">&lt;</span><span class="sx">%- else -%&gt;</span>
+<span class="sx">&lt;%= link_to &#39;Remove from favorites&#39;, favorite_project_path(@project), method: :delete %&gt;</span>
+<span class="o">&lt;</span><span class="sx">%- end -</span><span class="o">%&gt;</span></code></pre></div>
+  
+  <p>
+    The best part about this is that I can easily modify this to accept any other model in my
+    app that should have favoriting. I hope this is helpful to anyone reading this. Let me know
+    if you use this technique or if I missed anything.
+  </p>
+</article>
+    
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'schmidthappensgh'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </div>
+	
+  <footer role="main">
+    <div class='container'>
+      <section class="comp about main">
+        <header>
+          <h2 class='article-title'>Sometimes...schmidt happens</h2>
+        </header>
+        <p>
+          Schmidt<span>Happens</span> is the personal blog of Terry Schmidt. Here you will
+          find articles on programming, design, culture and life. Explore.
+          Enjoy. Spread the word.
+        </p>
+      </section>
+      
+      <div class='well-container'>
+        <section class="well">
+          <header>
+            <h3>Currently on my bookshelf</h3>
+          </header>
+          <ul>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/html5-for-web-designers' target='_blank'>HTML5 for Web Designers</a> by
+              
+                <a href='http://adactio.com' target='_blank'>Jeremy Keith</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.poodr.com' target='_blank'>Practical Object Oriented Design in Ruby: An Agile Primer</a> by
+              
+                <a href='https://twitter.com/sandimetz' target='_blank'>Sandi Metz</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/the-elements-of-content-strategy' target='_blank'>The Elements of Content Strategy</a> by
+              
+                <a href='http://incisive.nu/about/' target='_blank'>Erin Kissane</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='' target='_blank'>Rails 4 in Action</a> by
+              
+              
+              
+                
+                  <a href='http://ryanbigg.com' target='_blank'>Ryan Bigg</a>, 
+                
+                  <a href='http://yehudakatz.com' target='_blank'>Yehuda Katz</a> and 
+                
+                  <a href='http://words.steveklabnik.com' target='_blank'>Steve Klabnik</a>
+                
+              
+            </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Sites &amp; Resources</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='http://www.fontsquirrel.com' target='_blank' title='Handpicked fonts for graphic designers'>Font Squirrel</a>
+              </li>
+            
+              <li>
+                <a href='http://google.com/fonts' target='_blank' title='Hundreds of free, open-source fonts optimized for the web'>Google Web Fonts</a>
+              </li>
+            
+              <li>
+                <a href='http://necolas.github.io/normalize.css/' target='_blank' title='Make browsers render all elements more consistently'>normalize.css</a>
+              </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Stalk Me</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='https://twitter.com/tschmidt' target='_blank' title='The personal twitter account for Terry Schmidt'>twitter/tschmidt</a>
+              </li>
+            
+              <li>
+                <a href='https://twitter.com/linkluv' target='_blank' title='The twitter account I use to show some link love'>twitter/linkluv</a>
+              </li>
+            
+              <li>
+                <a href='https://github.com/tschmidt' target='_blank' title='A collection of projects I work on'>github/tschmidt</a>
+              </li>
+            
+          </ul>
+        </section>
+      </div>
+    </div>
+  </footer>
+	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script src="/js/plugins.js"></script>
+<script src="/js/script.js"></script>
+<!-- end scripts-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-26092524-1', 'schmidt-happens.com');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<!--[if lt IE 7 ]>
+	<script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+</body>
+</html>

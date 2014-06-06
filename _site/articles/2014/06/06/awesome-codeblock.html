@@ -1,0 +1,318 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>SchmidtHappens | Better Code Blocks with Liquid</title>
+	<meta name="author" content="Terry Schmidt">
+	
+	<link href='http://plus.google.com/103688769817504697011/' rel='author'/>
+  <link href='/css/normalize.css' rel='stylesheet'>
+  <link href='/css/site.css' rel='stylesheet'>
+  <link href='/css/responsive.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/pygments-friendly.css">
+  
+  
+	<script src="/js/libs/modernizr-2.0.min.js"></script>
+	<script src="/js/libs/respond.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  
+  <header role='main'>
+    <div class='container'>
+      <a href='/' class='pull-left'>
+        <h1>
+          Schmidt<span>Happens</span>
+        </h1>
+      </a>
+
+      <nav role="navigation" class='pull-right'>
+        <ul>
+          <li id="n-articles">
+            <a href='/articles'>
+              Articles
+            </a>
+          </li>
+          <li id="n-tips">
+            <a href='/tips'>
+              Tips
+            </a>
+          </li>
+          <li id="n-about">
+            <a href='/about'>
+              About
+            </a>
+          </li>
+          <li id="n-projects">
+            <a href='/projects'>
+              Projects
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class='container article-container'>
+    <article>
+  <header>
+  <h2 class='article-title large'>Better Code Blocks with Liquid</h2>
+</header>
+<aside class='article-meta fullpage'>
+  <ul class='unstyled'>
+    <li class="date"><strong>06 Jun 2014</strong></li>
+    <li class="tags">articles, howto, and rails</li>
+  </ul>
+</aside>
+<p>I created a Liquid plugin that allows you to add much sexier code blocks to your site.<span id="continue"></span></p>
+  
+  <p>
+    While creating the <a href='https://github.com/tschmidt/author'>Author gem</a>, I
+    ended up creating a Liquid plugin that allowed me to create much nicer code blocks.
+  </p>
+  
+  <p>
+    I just recently extracted out the code into <a href='https://github.com/tschmidt/liquid-awesome-codeblock'>its own plugin on github</a>
+    and wanted to give you a taste of what it can do. Set up is pretty simple if you are
+    using Jekyll and I have instructions on how to do this in the README for the project.
+    All of the examples below show the code used to get the code block to display. It's
+    very meta.
+  </p>
+  
+  <p>
+    This is the vanilla version:
+  </p>
+  
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+  
+  <p>
+    What if you wanted to add a title?
+  </p>
+
+  <figure class="code text"><figcaption class="code-header"><span>This is a title</span></figcaption><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock title:&quot;This is a title&quot; %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+
+  <p>
+    This is perfect for adding the file you are talking about!
+  </p>
+
+  <figure class="code text"><figcaption class="code-header"><span>path/to/file.extension</span></figcaption><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock title:&quot;path/to/file.extension&quot; %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+
+  <p>
+    You want some line numbers? Okay. You can do that too.
+  </p>
+
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="gutter"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div></td><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock show_line_numbers:true %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+
+  <p>
+    Want some code highlighting? Got that covered.
+  </p>
+
+  <figure class="code ruby"><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{<span class="string"><span class="delimiter">% </span><span class="content">awesome_codeblock</span><span class="delimiter"> </span></span><span class="key">lang</span>:ruby <span class="string"><span class="delimiter">%}</span></span></div><div class="code-part"><span class="keyword">class</span> <span class="class">Thing</span> &lt; <span class="constant">ParentThing</span></div><div class="code-part">  <span class="keyword">def</span> <span class="function">say_hello</span></div><div class="code-part">    puts <span class="string"><span class="delimiter">'</span><span class="content">Hello!</span><span class="delimiter">'</span></span></div><div class="code-part">  <span class="keyword">end</span></div><div class="code-part"><span class="keyword">end</span></div><div class="code-part">{<span class="string"><span class="delimiter">% </span><span class="content">endawesome_codeblock</span><span class="delimiter"> </span></span>%}</div></pre></td></tr></tbody></table></div></figure>
+
+  <p>
+    Here's one of my favorites. How about highlighting a specific line? Say, one where
+    something changed and you really want to draw attention to it.
+  </p>
+
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock highlight:&quot;3&quot; %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+  
+  <p>
+    Would produce...
+  </p>
+  
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="gutter"><div class="line-number">1</div><div class="line-number">2</div><div class="line-number highlight">3</div><div class="line-number">4</div><div class="line-number">5</div></td><td class="lines-of-code"><pre><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part highlight">    puts 'ZOMG, Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div></pre></td></tr></tbody></table></div></figure>
+
+  <p>
+    Showing part of a file and you don't want to start on line 1? Your wish is my command.
+  </p>
+
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock start_at:25 %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+  
+  <p>
+    Would produce...
+  </p>
+  
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="gutter"><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div></td><td class="lines-of-code"><pre><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div></pre></td></tr></tbody></table></div></figure>
+
+  <p>
+    Just keep in mind that if you start at a different number, and you want to highlight
+    lines, they will need to be relative to the starting number.
+  </p>
+
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="lines-of-code"><pre><div class="code-part">{% awesome_codeblock start_at:25 highlight:&quot;26,27,28&quot; %}</div><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part">  def say_hello</div><div class="code-part">    puts 'Hello!'</div><div class="code-part">  end</div><div class="code-part">end</div><div class="code-part">{% endawesome_codeblock %}</div></pre></td></tr></tbody></table></div></figure>
+  
+  <p>
+    Would produce...
+  </p>
+  
+  <figure class="code text"><div class="CodeRay"><table class="code"><tbody><tr><td class="gutter"><div class="line-number">25</div><div class="line-number highlight">26</div><div class="line-number highlight">27</div><div class="line-number highlight">28</div><div class="line-number">29</div></td><td class="lines-of-code"><pre><div class="code-part">class Thing &lt; ParentThing</div><div class="code-part highlight">  def say_hello</div><div class="code-part highlight">    puts 'Hello!'</div><div class="code-part highlight">  end</div><div class="code-part">end</div></pre></td></tr></tbody></table></div></figure>
+  
+  <p>
+    The styles I'm using are from the default styles in the <a href="https://github.com/tschmidt/liquid-awesome-codeblock/tree/master/assets/stylesheets">project on Github</a>. You can 
+    copy them exactly or use them for inspiration and make your own.
+  </p>
+  
+  <p>
+    Now go! Have some fun making code blocks more awesome!
+  </p>
+</article>
+    
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'schmidthappensgh'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </div>
+	
+  <footer role="main">
+    <div class='container'>
+      <section class="comp about main">
+        <header>
+          <h2 class='article-title'>Sometimes...schmidt happens</h2>
+        </header>
+        <p>
+          Schmidt<span>Happens</span> is the personal blog of Terry Schmidt. Here you will
+          find articles on programming, design, culture and life. Explore.
+          Enjoy. Spread the word.
+        </p>
+      </section>
+      
+      <div class='well-container'>
+        <section class="well">
+          <header>
+            <h3>Currently on my bookshelf</h3>
+          </header>
+          <ul>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/html5-for-web-designers' target='_blank'>HTML5 for Web Designers</a> by
+              
+                <a href='http://adactio.com' target='_blank'>Jeremy Keith</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.poodr.com' target='_blank'>Practical Object Oriented Design in Ruby: An Agile Primer</a> by
+              
+                <a href='https://twitter.com/sandimetz' target='_blank'>Sandi Metz</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/the-elements-of-content-strategy' target='_blank'>The Elements of Content Strategy</a> by
+              
+                <a href='http://incisive.nu/about/' target='_blank'>Erin Kissane</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='' target='_blank'>Rails 4 in Action</a> by
+              
+              
+              
+                
+                  <a href='http://ryanbigg.com' target='_blank'>Ryan Bigg</a>, 
+                
+                  <a href='http://yehudakatz.com' target='_blank'>Yehuda Katz</a> and 
+                
+                  <a href='http://words.steveklabnik.com' target='_blank'>Steve Klabnik</a>
+                
+              
+            </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Sites &amp; Resources</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='http://www.fontsquirrel.com' target='_blank' title='Handpicked fonts for graphic designers'>Font Squirrel</a>
+              </li>
+            
+              <li>
+                <a href='http://google.com/fonts' target='_blank' title='Hundreds of free, open-source fonts optimized for the web'>Google Web Fonts</a>
+              </li>
+            
+              <li>
+                <a href='http://necolas.github.io/normalize.css/' target='_blank' title='Make browsers render all elements more consistently'>normalize.css</a>
+              </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Stalk Me</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='https://twitter.com/tschmidt' target='_blank' title='The personal twitter account for Terry Schmidt'>twitter/tschmidt</a>
+              </li>
+            
+              <li>
+                <a href='https://twitter.com/linkluv' target='_blank' title='The twitter account I use to show some link love'>twitter/linkluv</a>
+              </li>
+            
+              <li>
+                <a href='https://github.com/tschmidt' target='_blank' title='A collection of projects I work on'>github/tschmidt</a>
+              </li>
+            
+          </ul>
+        </section>
+      </div>
+    </div>
+  </footer>
+	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script src="/js/plugins.js"></script>
+<script src="/js/script.js"></script>
+<!-- end scripts-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-26092524-1', 'schmidt-happens.com');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<!--[if lt IE 7 ]>
+	<script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+</body>
+</html>

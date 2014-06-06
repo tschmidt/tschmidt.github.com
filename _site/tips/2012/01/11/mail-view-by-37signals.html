@@ -1,0 +1,323 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>SchmidtHappens | MailView by 37Signals</title>
+	<meta name="author" content="Terry Schmidt">
+	
+	<link href='http://plus.google.com/103688769817504697011/' rel='author'/>
+  <link href='/css/normalize.css' rel='stylesheet'>
+  <link href='/css/site.css' rel='stylesheet'>
+  <link href='/css/responsive.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/pygments-friendly.css">
+  
+  
+	<script src="/js/libs/modernizr-2.0.min.js"></script>
+	<script src="/js/libs/respond.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  
+  <header role='main'>
+    <div class='container'>
+      <a href='/' class='pull-left'>
+        <h1>
+          Schmidt<span>Happens</span>
+        </h1>
+      </a>
+
+      <nav role="navigation" class='pull-right'>
+        <ul>
+          <li id="n-articles">
+            <a href='/articles'>
+              Articles
+            </a>
+          </li>
+          <li id="n-tips">
+            <a href='/tips'>
+              Tips
+            </a>
+          </li>
+          <li id="n-about">
+            <a href='/about'>
+              About
+            </a>
+          </li>
+          <li id="n-projects">
+            <a href='/projects'>
+              Projects
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class='container article-container'>
+    <article>
+  <header>
+  <h2 class='article-title large'>MailView by 37Signals</h2>
+</header>
+<aside class='article-meta fullpage'>
+  <ul class='unstyled'>
+    <li class="date"><strong>11 Jan 2012</strong></li>
+    <li class="tags">37signals, email, and tips</li>
+  </ul>
+</aside>
+<p>Have you ever wanted to develop your emails like you do your views in a Rails app? 37signals has a gift for you.<span id="continue"></span></p>
+  <p>
+    So here's the low down. <a href="http://37signals.com/" target="_blank">37signals</a> have once again come to the rescue with an
+    amazing little gem called <a href="https://github.com/37signals/mail_view" target="_blank">MailView</a>. It's fairly straightforward to get set up
+    and I'm going to show you how.
+  </p>
+  
+  <p>
+    First, you will need a Rails application set up with a functioning mailer class.
+    I'm assuming you are using Rails 3.whatev for this example. You could still be
+    using Rails 2.whatev but you could also still be dragging your knuckles on the
+    ground and chasing after your dinner.
+    Also, this is a tip and not a tutorial (per se) so I won't go into detail on how you
+    create a Rails 3 app with a mailer. So...onto getting things set up.
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="c1"># in your Gemfile add</span>
+  <span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+    <span class="n">gem</span> <span class="s1">&#39;mail_view&#39;</span>
+  <span class="k">end</span></code></pre></div>
+  
+  <p>
+    Then run the <code>bundle install</code> command.
+  </p>
+  
+  <p class="notice">
+    A word of warning, when I first tried this I got an exception about 'tilt'
+    not being found. If you run into the same problem then just modify your 
+    Gemfile to include the Tilt gem as well. Apparently, 
+    <a href="https://github.com/37signals/mail_view/pull/9" target="_blank">this is a known 
+    issue</a> and I'm hoping it will be resolved soon.
+  </p>
+  
+  <p>
+    Once everything is installed you will need to set up your "preview" class
+    for any mailer you want to view in the browser. 
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="c1"># app/mailers/notifier.rb</span>
+  <span class="k">class</span> <span class="nc">Notifier</span> <span class="o">&lt;</span> <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span>
+    <span class="k">def</span> <span class="nf">welcome</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+      <span class="c1">#stuff going on in here</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="c1"># make sure we only load the preview class in development mode</span>
+  <span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">development?</span>
+    <span class="k">class</span> <span class="nc">Notifier</span><span class="o">::</span><span class="no">Preview</span> <span class="o">&lt;</span> <span class="no">MailView</span>
+      <span class="c1"># define a method that will be listed as the &quot;view name&quot; in the browser</span>
+      <span class="c1"># I just used the same name as the email action from the mailer class</span>
+      <span class="k">def</span> <span class="nf">welcome</span>
+        <span class="c1"># you will need to generate any objects that the mail action from your</span>
+        <span class="c1"># mailer class is expecting.</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span> <span class="o">||</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>
+        <span class="no">Notifier</span><span class="o">.</span><span class="n">welcome</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span></code></pre></div>
+  
+  <p>
+    You will create new methods in the Preview class for any mailer action you
+    want to preview in the browser. Also note that you do not have to call your
+    preview class 'Preview'. You could call it 'MahoganyWood' for all I care, the
+    important thing is that it is a sub-class of MailView. Onto the route! 
+  </p>
+  
+  <p>
+    In your <code>app/config/routes.rb</code> file you will need to "mount" the
+    new preview class you just created.
+  </p>
+  
+  <div class="highlight"><pre><code class="ruby"><span class="c1"># app/config/routes.rb</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="c1"># again, making sure we only load this if we are in dev mode</span>
+  <span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">development?</span>
+    <span class="n">mount</span> <span class="no">Notifier</span><span class="o">::</span><span class="no">Preview</span> <span class="o">=&gt;</span> <span class="s1">&#39;notifier_preview&#39;</span>
+  <span class="k">end</span></code></pre></div>
+  
+  <p>
+    What we just did was create a new "/notifier_preview" path in our app.
+    When you navigate to that url you will be presented with a list of links for
+    each preview action you defined in your preview class. In this example, you
+    would just see a link called "welcome". When you click on the link the html
+    version of the email will be loaded for you to see. Bam!!! If you also
+    created a text version of the email (and of course you did) then you will
+    see a link in the upper right corner labeled "View Text version". Bam again!!!
+  </p>
+  
+  <p>
+    And there you have it. Pure awesomeness. Now you can develop your emails as
+    if they were just another view in your application. Then, when you are happy
+    with how it is displaying you can send it to different email clients and 
+    tweak as necessary.
+  </p>
+  
+  <p>Something missing? Need more explanation? Let me know in the <accronym title="For those of you that are fans of the klassic Killer Instict video game, that was for you.">c-c-c-comments</accronym>!</p>
+</article>
+    
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'schmidthappensgh'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </div>
+	
+  <footer role="main">
+    <div class='container'>
+      <section class="comp about main">
+        <header>
+          <h2 class='article-title'>Sometimes...schmidt happens</h2>
+        </header>
+        <p>
+          Schmidt<span>Happens</span> is the personal blog of Terry Schmidt. Here you will
+          find articles on programming, design, culture and life. Explore.
+          Enjoy. Spread the word.
+        </p>
+      </section>
+      
+      <div class='well-container'>
+        <section class="well">
+          <header>
+            <h3>Currently on my bookshelf</h3>
+          </header>
+          <ul>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/html5-for-web-designers' target='_blank'>HTML5 for Web Designers</a> by
+              
+                <a href='http://adactio.com' target='_blank'>Jeremy Keith</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.poodr.com' target='_blank'>Practical Object Oriented Design in Ruby: An Agile Primer</a> by
+              
+                <a href='https://twitter.com/sandimetz' target='_blank'>Sandi Metz</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/the-elements-of-content-strategy' target='_blank'>The Elements of Content Strategy</a> by
+              
+                <a href='http://incisive.nu/about/' target='_blank'>Erin Kissane</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='' target='_blank'>Rails 4 in Action</a> by
+              
+              
+              
+                
+                  <a href='http://ryanbigg.com' target='_blank'>Ryan Bigg</a>, 
+                
+                  <a href='http://yehudakatz.com' target='_blank'>Yehuda Katz</a> and 
+                
+                  <a href='http://words.steveklabnik.com' target='_blank'>Steve Klabnik</a>
+                
+              
+            </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Sites &amp; Resources</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='http://www.fontsquirrel.com' target='_blank' title='Handpicked fonts for graphic designers'>Font Squirrel</a>
+              </li>
+            
+              <li>
+                <a href='http://google.com/fonts' target='_blank' title='Hundreds of free, open-source fonts optimized for the web'>Google Web Fonts</a>
+              </li>
+            
+              <li>
+                <a href='http://necolas.github.io/normalize.css/' target='_blank' title='Make browsers render all elements more consistently'>normalize.css</a>
+              </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Stalk Me</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='https://twitter.com/tschmidt' target='_blank' title='The personal twitter account for Terry Schmidt'>twitter/tschmidt</a>
+              </li>
+            
+              <li>
+                <a href='https://twitter.com/linkluv' target='_blank' title='The twitter account I use to show some link love'>twitter/linkluv</a>
+              </li>
+            
+              <li>
+                <a href='https://github.com/tschmidt' target='_blank' title='A collection of projects I work on'>github/tschmidt</a>
+              </li>
+            
+          </ul>
+        </section>
+      </div>
+    </div>
+  </footer>
+	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script src="/js/plugins.js"></script>
+<script src="/js/script.js"></script>
+<!-- end scripts-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-26092524-1', 'schmidt-happens.com');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<!--[if lt IE 7 ]>
+	<script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+</body>
+</html>

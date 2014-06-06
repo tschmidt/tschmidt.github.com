@@ -1,0 +1,766 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>SchmidtHappens | My Git Workflow</title>
+	<meta name="author" content="Terry Schmidt">
+	
+	<link href='http://plus.google.com/103688769817504697011/' rel='author'/>
+  <link href='/css/normalize.css' rel='stylesheet'>
+  <link href='/css/site.css' rel='stylesheet'>
+  <link href='/css/responsive.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/pygments-friendly.css">
+  
+  
+	<script src="/js/libs/modernizr-2.0.min.js"></script>
+	<script src="/js/libs/respond.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  
+  <header role='main'>
+    <div class='container'>
+      <a href='/' class='pull-left'>
+        <h1>
+          Schmidt<span>Happens</span>
+        </h1>
+      </a>
+
+      <nav role="navigation" class='pull-right'>
+        <ul>
+          <li id="n-articles">
+            <a href='/articles'>
+              Articles
+            </a>
+          </li>
+          <li id="n-tips">
+            <a href='/tips'>
+              Tips
+            </a>
+          </li>
+          <li id="n-about">
+            <a href='/about'>
+              About
+            </a>
+          </li>
+          <li id="n-projects">
+            <a href='/projects'>
+              Projects
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class='container article-container'>
+    <article>
+  <header>
+  <h2 class='article-title large'>My Git Workflow</h2>
+</header>
+<aside class='article-meta fullpage'>
+  <ul class='unstyled'>
+    <li class="date"><strong>02 Apr 2012</strong></li>
+    <li class="tags">articles, git, how to, and workflow</li>
+  </ul>
+</aside>
+<p>Are you new to Git and have no clue what a git workflow might look like? Have you been using git for a while but are still not sure how to use it effectively in your daily development work? Worried the cool kids are making fun of you? For the <strong>low price of free</strong>, I'll share my Git workflow with you and help you on your way to git-jitsu.<span id="continue"></span></p>
+  
+  <p>
+    When I first switched to git, I used it like I would have subversion. It's
+    what I knew and it was pretty easy to continue working in that mindset. The
+    problem with this is that it's kind of a slap in the face. I mean seriously,
+    it'd be like getting an iPhone and treating it like it were a <a href="http://en.wikipedia.org/wiki/Nokia_5110">Nokia 5110
+    (ah, snap covers)</a>. 
+  </p>
+  
+  <p>
+    Sure, subversion was good and it worked well, but git offered a new way of
+    doing things. Some might argue that it is <a href="http://whygitisbetterthanx.com/">a</a> <a href="http://thinkvitamin.com/code/why-you-should-switch-from-subversion-to-git/">better</a> <a href="http://www.gitology.com/chapter/benefits-of-using-git">way</a> of doing it too.
+    The following is where I am today with my git workflow. It's still a work
+    in progress, but I find that it's really helping me become a better
+    developer.
+  </p>
+  
+  <h2>First, a Disclaimer</h2>
+  
+  <p>
+    This article will not teach you about installing git, setting it up, creating
+    an account <a href="http://github.com">somewhere awesome</a> or letting you in on the <a href="http://en.wikipedia.org/wiki/42_(number)#The_Hitchhiker.27s_Guide_to_the_Galaxy">meaning of life</a>.
+    If you need help with any of the above, let me know in the comments and I
+    will do my best to get you an answer. For the sake of this article, I will
+    assume that you are using <a href="http://github.com">Github</a>. Let's begin...
+  </p>
+  
+  <h2>Getting Started</h2>
+  
+  <p>
+    The first thing that I do in any project that I'm working on is to create
+    a master branch and a development branch. The first it pretty simple. All
+    you need to do is initialize git inside the directory you want to manage.
+  </p>
+  
+  <div class="highlight"><pre><code class="console"><span class="gp">#</span> <span class="nb">cd </span>into the root folder of your project
+<span class="go">cd /my/awesome/project</span>
+
+<span class="gp">#</span> initiate git
+<span class="go">git init</span>
+
+<span class="gp">#</span> add everything that currently exists in the project
+<span class="go">git add .</span>
+
+<span class="gp">#</span> making the first commit
+<span class="go">git commit -m &quot;first commit&quot;</span>
+
+<span class="gp">#</span> adding the remote repo
+<span class="go">git remote add origin git@github.com:username/project_name.git</span>
+
+<span class="gp">#</span> pushing <span class="nb">local </span>commits to the remote
+<span class="go">git push -u origin master</span></code></pre></div>
+    
+    <p>
+      I know, I know. I just threw a shit ton of code at you without even the
+      slightest warning. Don't worry, I'm about to break it down.
+    </p>
+    
+    <p>
+      <strong>Step 1:</strong> The first thing that we did was to <code>cd</code>
+      into the project that we want to manage using git.
+    </p>
+    
+    <p>
+      <strong>Step 2:</strong> Then we initialize git with a call to
+      <code>git init</code>. This will create the appropriate files and directories
+      necessary for git to know what's happening to our project.
+    </p>
+    
+    <p>
+      <strong>Step 3:</strong> Once you've initialized git in your project, you
+      will need to add the files and folders of your project so you can track
+      their changes. If this is a brand spankin' new project, then you hopefully won't
+      have too many things to commit. In fact, you may not have anything to
+      commit. If that is the case you need to have at least one thing to commit.
+      If I find myself in this situation, I simply type <code>touch README</code>
+      to create a README file and use that as my first commit. To find out what will be added
+      when you run <code>git add .</code> you can first run <code>git status</code>.
+      This will list out all of the files that are currently not under version
+      control. Also note that the '.' in <code>git add .</code> is a wildcard
+      character that means "everything".
+    </p>
+    
+    <p>
+      <strong>Step 4:</strong> Making your first commit. Now, the word "commit"
+      may seem a little scary to those of you just getting started with git, but don't be.
+      When you "commit" in git - rhyming was not intentional - you are actually
+      just committing on your local machine. In order for your fellow developers
+      to see these changes, you need to push them to the server. We'll get there
+      in a second. First, a few notes about the command <code>git commit -m "initial commit"</code>.
+    </p>
+    
+    <p>
+      The <code>-m</code> flag is just a shortcut for adding a message. In order
+      to create a commit you must specify a message. If you were to just type
+      <code>git commit</code>, your editor of choice would be opened and you would
+      need to enter a commit message and then save and close the file. I find
+      that using the shortcut is not only faster but prevents me from getting
+      chatty in my commit messages.
+    </p>
+    
+    <p>
+      <strong>Step 5:</strong> Before we can actually push our commits to the
+      remote branch, we need to tell our local branch where that is. To do this
+      we type <code>git remote add origin git@github.com:username/project_name.git</code>.
+      You will obviously need to change `username' to your github username and
+      `project_name' to your projects name. In order for this to work, you would
+      have already created this project on Github as well.
+    </p>
+    
+    <p>
+      <strong>Step 6:</strong> Now that we've told our local repo how to talk
+      to our remote repo, we can push our commits. The first time you
+      do this it's a good idea to add the <code>-u</code> option so that you
+      do not have to reference which local branch you are pushing. If you didn't
+      add this option, every time you wanted to push changes from your local
+      master branch you would need to type <code>git push origin master</code>.
+    </p>
+    
+    <h2>The Development Branch</h2>
+    
+    <p>
+      After running all of the commands above, we have a single branch in our
+      git repository called 'master'. You can see this by running
+      <code>git branch</code>. The asterisk (*) next to the branch name is a 
+      visual indicator of which branch you are currently on.
+    </p>
+    
+    <p>
+      In my workflow, the master branch should <strong>always</strong> represent
+      a pristine state. That means that you should be able to deploy your project
+      to a production ready environment from the master branch. Does that sound
+      like an environment you should be in when you are developing a new feature?
+      Hells-to-the-no it isn't (if you answered yes, slap yourself).
+    </p>
+    
+    <p>
+      For this reason, I create a new branch. I'm very clever and as such I use
+      the name "develop" for the new branch. I know, completely tongue-in-cheek...
+    </p>
+    
+    <p>
+      Anyway, you could really name this whatever makes the most sense to you.
+      It could be called "staging" or "development" or "thisshitaintready". Whatever.
+      The important thing is that whatever name you choose, it should be clear that
+      this new, as-yet-to-be-created branch is where development work will take
+      place.
+    </p>
+    
+    <p>
+      To create this branch locally, we will first need to create it on the
+      remote server.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git push origin master:refs/heads/develop</span></code></pre></div>
+    
+    <p>
+      If you chose to go in a different direction with your name, I won't hold it
+      against you. But you will need to update the above code to reflect your
+      new branches name and not "develop" as I have chosen.
+    </p>
+    
+    <p>
+      Next, you will need to create a local version of that branch and set it
+      to track the remote version.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git branch --track develop origin/develop</span></code></pre></div>
+    
+    <p>
+      The first argument after <code>--track</code> is the name of the local
+      branch while the second is the remote branch you want it to be associated
+      with. You could have chosen a different name but why the hell would you want
+      to confuse youreslf like that. Really, that's just dumb.
+    </p>
+    
+    <p>
+      Now that you've created this new branch, you can run <code>git branch</code>
+      again and you will see both the master and develop branches. The current
+      branch is still 'master' so you will need to checkout the 'develop' branch
+      with <code>git checkout develop</code>. Can you guess what the command
+      to checkout the 'master' branch again is? Hopefully you said
+      <code>git checkout master</code>.
+    </p>
+    
+    <p>
+      If you are like me, you like shortcuts. And git offers one when it comes
+      to creating a new local branch and checking it out. To do what we just did
+      you could've typed <code>git checkout -b develop --track origin/develop</code>.
+      The <code>-b</code> option tells the <code>git checkout</code> command
+      to create a new branch, while the <code>--track</code> option tells
+      it what remote brach to associate the new local branch with.
+    </p>
+    
+    <p>
+      There you have it. I know it seems like a lot of work, but really it's
+      not that bad when you see it all together. I've combined the entire process
+      for you to see it in one code snippet. For this example, we are assuming
+      that I have already created a project in Github called "proposals".
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">mkdir proposals</span>
+<span class="go">cd proposals</span>
+<span class="go">touch README</span>
+<span class="go">git init</span>
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Initial commit&quot;</span>
+<span class="go">git remote add origin git@github.com/tschmidt/proposals.git</span>
+<span class="go">git push -u origin master</span>
+
+<span class="go">git push origin master:refs/heads/develop</span>
+<span class="go">git checkout -b develop --track origin/develop</span></code></pre></div>
+      
+    <h2>The Development Cycles</h2>
+    
+    <p>
+      Now that we have everything set up and ready to go, I can talk about my
+      development cycles. This includes 3 different types of local branches:
+    </p>
+    
+    <ul>
+      <li>Features</li>
+      <li>Releases</li>
+      <li>Hot-fixes</li>
+    </ul>
+    
+    <p>
+      Before I discuss each of these in detail, here's how I structure my release
+      number: <code>major.minor.hotfix</code>
+    </p>
+    
+    <p>
+      The <strong>major</strong> and <strong>minor</strong> number relate to
+      features that have been competed in development. How you choose to increase
+      these is really up to you but I look at it this way: If you create a new
+      widget for the side panel, I would consider that a minor release. If you
+      completely revamp the UI for an application, then I would consider that
+      a major release. Just use your own judgment as this is really something
+      that depends on the project you are developing. The one thing that I will
+      say is firmly defined is the <strong>hotfix</strong> number. This will
+      increase each time you fix a bug in the project you are working on. Since
+      I am the only developer, this is pretty straight forward for me. I'm the
+      only one doing hotfixes. If, however, you work with a team then you will
+      need to designate who should handle hotfixes and how they get pushed to
+      production. Since that is a whole other blog post in itself, we are going
+      to focus on my situation; the single developer syndrome.
+    </p>
+    
+    <h3>Feature Branches</h3>
+    
+    <p>
+      Feature branches should contain only one feature. That's why I call them
+      "feature" branches and not "features" branches. Now, I know this my seem
+      a bit strange at first, but I really do believe that developing a single
+      idea or concept per feature branch allows you to really focus on what needs to be
+      done. If you are developing several features at once and something breaks,
+      it's much harder to figure out which feature the break will affect. By
+      focusing on one feature and only one feature, there is no question.
+    </p>
+    
+    <p>
+      Now, let's say that I want to add a login module to this application I'm
+      developing. I would first start by making sure that my development branch
+      was up to date.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git checkout develop</span>
+<span class="go">git pull</span></code></pre></div>
+    
+    <p>
+      Once I know that I have the latest code I would run any tests that are
+      part of the project. How you run tests will vary on your own
+      situation. For me, it's typically through <a href="http://cukes.info">Cucumber</a> and <a href="http://rspec.info">RSpec</a>.
+      Once I know all the tests are passing and my code is up-to-date, it's time
+      to tackle this new feature.
+    </p>
+    
+    <p>
+      The first step is to create a new branch based on the develop branch.
+    </p>
+    
+    <aside>
+      <p>
+        Since this is a feature branch I prefix the name with "feature". This
+        just helps me to keep the branches organized. I do the same thing
+        for hotfix and release branches as well. Not only does this help describe
+        the branch, but as you will see a little later on, it will help distinguish
+        the branch in the git log messages.
+      </p>
+    </aside>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git checkout -b feature-login-module develop</span></code></pre></div>
+    
+    <p>
+      Here, we are using the <code>-b</code> option for the <code>checkout</code>
+      command to create and checkout a new branch in one step. The difference here
+      is that we are <strong>not</strong> associating it with a remote
+      branch. This means that it only exists on our local machine. The last
+      argument we pass in is the branch that we want this new branch to be
+      based on, which in this instance is the "develop" branch.
+    </p>
+    
+    <p>
+      From here, all development that is required for
+      the new "login module" will be done in this branch. After you complete
+      a task for the feature, make sure to commit those changes to the feature
+      branch.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="gp">#</span> hack, hack, hack
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Commit message&quot;</span>
+
+<span class="gp">#</span> hack, hack, hack
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Another commit message&quot;</span></code></pre></div>
+    
+    <p>
+      How do you know when to add a new commit? I typically do this after I get
+      a spec or scenario to pass. That means I write a single spec or scenario,
+      then I write the code necessary to make it pass, and then I add and
+      commit those changes to the branch.
+    </p>
+    
+    <p>
+      You've done all your hacking at the feature and now it's beautiful and shiny
+      and complete. You've also run all your tests and made sure they are still
+      passing (right?). Now what? Now, it's time to merge it back into the develop
+      branch.
+    </p>
+    
+    <aside>  
+      <p>
+        I use the <code>--no-ff</code> option so that the merge creates a new commit
+        object. Basically, this will show a "Merge branch 'feature-login-module' into develop"
+        when you run <code>git log</code> along with all of the other commit messages
+        from that branch. I like this because I can see exactly when features
+        were merged into the develop branch. If you don't want to see these meesages
+        in the log, just omit the <code>--no-ff</code> option.
+      </p>
+    </aside>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git checkout develop</span>
+<span class="go">git merge --no-ff feature-login-module</span></code></pre></div>
+    
+    <p>
+      Once the merge has been completed, we no longer need the feature branch.
+      Let's go ahead and remove it.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git branch -d feature-login-module</span></code></pre></div>
+    
+    <p>
+      There you have it, my workflow for feature branches. Here is a
+      consolidated snippet of all the commands.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="gp">#</span> make sure develop branch is up-to-date
+<span class="go">git checkout develop</span>
+<span class="go">git pull</span>
+
+<span class="gp">#</span> create feature branch based on the develop branch
+<span class="go">git checkout -b feature-some-descriptive-name develop</span>
+
+<span class="gp">#</span> <span class="nb">test</span>, hack, hack, hack
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Description of change&quot;</span>
+
+<span class="gp">#</span> <span class="nb">test</span>, hack, hack, hack
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Description of change&quot;</span>
+
+<span class="gp">#</span> merge the feature back into the develop branch and remove feature branch
+<span class="go">git checkout develop</span>
+<span class="go">git merge --no-ff feature-some-descriptive-name</span>
+<span class="go">git branch -d feature-some-descriptive-name</span></code></pre></div>
+    
+    <p>
+      See, that wasn't too bad was it. The only other thing that I will mention
+      is that after I merge a feature branch back into my develop branch, I make
+      sure I merge develop back into any of the feature branches I am working
+      on. This ensures that everything is up to date and I catch any collisions
+      that might occur in the feature branch and not in the develop branch.
+    </p>
+    
+    <h3>Release Branches</h3>
+    
+    <p>
+      When I'm finally ready to release a new version of the code base I use
+      a similar technique to the feature branch workflow. The difference here
+      is that there is no actual development done in a release branch. As a
+      naming convention I will call the branch "release-<em>major#</em>.<em>minor#</em>".
+      So for example I may create something like "release-1.3". To find out which
+      release is next I will just run <code>git tag</code>.
+    </p>
+    
+    <aside>
+      <p>
+        As with feature branches, release branches are based on the "develop" branch.
+      </p>
+    </aside>
+    
+    <div class="highlight"><pre><code class="console"><span class="go">git tag</span>
+<span class="go">-&gt; 1.0</span>
+<span class="go">-&gt; 1.0.1</span>
+<span class="go">-&gt; 1.0.2</span>
+<span class="go">-&gt; 1.1</span>
+<span class="go">-&gt; 1.3</span>
+
+<span class="go">git checkout -b release-1.3 develop</span></code></pre></div>
+      
+    <p>
+      The only thing that I will update in a release branch is the VERSION
+      file and the HISTORY file for the project. These are just regular text
+      files that I place in the root of the project.
+    </p>
+    
+    <div class="highlight"><pre><code class="text"># Example VERSION file
+Major = 1
+Minor = 2
+Hotfix = 0
+
+# Example HISTORY file
+January 1st, 2012
+  - Feature one
+  - Feature two
+  - Feature three
+  
+January 18th, 2012
+  - Feature one
+  - Feature two</code></pre></div>
+    
+    <p>
+      Once I've updated the HISTORY and VERSION files with the appropriate
+      information I do a single commit with a commit message of "Bumped version X.X.X".
+      The release is then merged into master, tagged, merged into develop and
+      finally deleted.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="gp">#</span> add and commit changes to the VERSION and HISTORY files
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Bumped version 1.3.0&quot;</span>
+
+<span class="gp">#</span> merge into master
+<span class="go">git checkout master</span>
+<span class="go">git merge --no-ff release-1.3</span>
+<span class="go">git push origin master</span>
+
+<span class="gp">#</span> tag the commit
+<span class="go">git tag -a 1.3.0</span>
+<span class="go">git push --tags</span>
+
+<span class="gp">#</span> merge into develop
+<span class="go">git checkout develop</span>
+<span class="go">git merge --no-ff release-1.3</span>
+<span class="go">git push origin develop</span>
+
+<span class="gp">#</span> remove the release branch
+<span class="go">git branch -d release-1.3</span></code></pre></div>
+
+    <p>
+      Hopefully, most of that will look familiar to you. The only thing that
+      is new here is where we tag the release. Tags are really useful for
+      capturing your project at a particular milestone. I highly recommend
+      using them. 
+    </p>
+    
+    <p>
+      That's pretty much it for release branches. They are pretty straight-forward
+      and just as easily implemented.
+    </p>
+    
+    <h3>Hotfix Branches</h3>
+    
+    <p>
+      The final branch type that I work with is the branch that I am hopefully
+      not having to create on a regular basis. No matter how we try, as developers
+      we will always encounter bugs. When this happens, I turn to this workflow
+      for quickly squashing and patching the bug.
+    </p>
+    
+    <p>
+      Unlike feature and release branches, a hotfix branch will be based on
+      the "master" branch. It's also critical that when you address the bug
+      that you do not allow yourself to creep on the scope of what you are doing.
+      Fix the bug and the bug only.
+    </p>
+    
+    <div class="highlight"><pre><code class="console"><span class="gp">#</span> create hotfix branch
+<span class="go">git checkout -b hotfix-squash-bug-x master</span>
+
+<span class="gp">#</span> hack, hack, hack
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;Commit message&quot;</span></code></pre></div>
+
+    <p>
+      I will also update the VERSION and HISTORY files right before I'm ready
+      to merge the hotfix branch back into master. I personally do this with
+      hotfix branches because I want everything pertaining to the hotfix in one
+      branch.
+    </p>
+    
+    <aside>
+      <p>
+        One note I will make here is that if you have a current release branch
+        that you are working on, merge the hotfix into the release branch instead
+        of the "develop" branch. The release branch will eventually be merged 
+        back into develop.
+      </p>
+    </aside>
+    
+    <div class="highlight"><pre><code class="console"><span class="gp">#</span> update VERSION and HISTORY files and commit changes
+<span class="go">git add .</span>
+<span class="go">git commit -m &quot;[HOTFIX] Explanation of hotfix&quot;</span>
+
+<span class="gp">#</span> merge the hotfix back into master
+<span class="go">git checkout master</span>
+<span class="go">git merge --no-ff hotfix-squash-bug-x</span>
+<span class="go">git push origin master</span>
+
+<span class="gp">#</span> tag the hotfix
+<span class="go">git tag -a 1.3.1</span>
+<span class="go">git push --tags</span>
+
+<span class="gp">#</span> merge the hotfix into develop branch
+<span class="go">git checkout develop</span>
+<span class="go">git merge --no-ff hotfix-squash-bug-x</span>
+
+<span class="gp">#</span> remove the hotfix branch
+<span class="go">git branch -d hotfix-squash-bug-x</span></code></pre></div>
+    
+    <p>
+      And there you have it, my git workflow. I know that was a lot to take in
+      so I've create <a href="https://gist.github.com/2295693">a TL;DR version</a> that you can use for reference once you
+      are comfortable with everything. Feed back - as always - is welcome.
+    </p>
+    
+    <p>Something missing? Need more explanation? Let me know in the <accronym title="For those of you that are fans of the klassic Killer Instict video game, that was for you.">c-c-c-comments</accronym>!</p>
+</article>
+    
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'schmidthappensgh'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </div>
+	
+  <footer role="main">
+    <div class='container'>
+      <section class="comp about main">
+        <header>
+          <h2 class='article-title'>Sometimes...schmidt happens</h2>
+        </header>
+        <p>
+          Schmidt<span>Happens</span> is the personal blog of Terry Schmidt. Here you will
+          find articles on programming, design, culture and life. Explore.
+          Enjoy. Spread the word.
+        </p>
+      </section>
+      
+      <div class='well-container'>
+        <section class="well">
+          <header>
+            <h3>Currently on my bookshelf</h3>
+          </header>
+          <ul>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/html5-for-web-designers' target='_blank'>HTML5 for Web Designers</a> by
+              
+                <a href='http://adactio.com' target='_blank'>Jeremy Keith</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.poodr.com' target='_blank'>Practical Object Oriented Design in Ruby: An Agile Primer</a> by
+              
+                <a href='https://twitter.com/sandimetz' target='_blank'>Sandi Metz</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='http://www.abookapart.com/products/the-elements-of-content-strategy' target='_blank'>The Elements of Content Strategy</a> by
+              
+                <a href='http://incisive.nu/about/' target='_blank'>Erin Kissane</a>
+              
+              
+              
+            </li>
+            
+            <li>
+              <a href='' target='_blank'>Rails 4 in Action</a> by
+              
+              
+              
+                
+                  <a href='http://ryanbigg.com' target='_blank'>Ryan Bigg</a>, 
+                
+                  <a href='http://yehudakatz.com' target='_blank'>Yehuda Katz</a> and 
+                
+                  <a href='http://words.steveklabnik.com' target='_blank'>Steve Klabnik</a>
+                
+              
+            </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Sites &amp; Resources</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='http://www.fontsquirrel.com' target='_blank' title='Handpicked fonts for graphic designers'>Font Squirrel</a>
+              </li>
+            
+              <li>
+                <a href='http://google.com/fonts' target='_blank' title='Hundreds of free, open-source fonts optimized for the web'>Google Web Fonts</a>
+              </li>
+            
+              <li>
+                <a href='http://necolas.github.io/normalize.css/' target='_blank' title='Make browsers render all elements more consistently'>normalize.css</a>
+              </li>
+            
+          </ul>
+        </section>
+        
+        <section class="well">
+          <header>
+            <h3>Stalk Me</h3>
+          </header>
+          <ul class='unstyled'>
+            
+              <li>
+                <a href='https://twitter.com/tschmidt' target='_blank' title='The personal twitter account for Terry Schmidt'>twitter/tschmidt</a>
+              </li>
+            
+              <li>
+                <a href='https://twitter.com/linkluv' target='_blank' title='The twitter account I use to show some link love'>twitter/linkluv</a>
+              </li>
+            
+              <li>
+                <a href='https://github.com/tschmidt' target='_blank' title='A collection of projects I work on'>github/tschmidt</a>
+              </li>
+            
+          </ul>
+        </section>
+      </div>
+    </div>
+  </footer>
+	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+<!-- scripts concatenated and minified via ant build script-->
+<script src="/js/plugins.js"></script>
+<script src="/js/script.js"></script>
+<!-- end scripts-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-26092524-1', 'schmidt-happens.com');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<!--[if lt IE 7 ]>
+	<script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+</body>
+</html>
