@@ -1,0 +1,56 @@
+/***********************************
+Devices with screen width larger
+than 75px.
+***********************************/
+@media screen and (min-width: 750px) {
+  body {
+    padding: 60px;
+  }
+  
+  h3 em {
+    display: inline;
+    margin-left: 15px;
+  }
+  
+  /*******************************************
+  Main Header
+  *******************************************/
+  header[role='main'] h1 {
+    float: left;
+    font-size: 75px;
+  }
+  
+  header[role='main'] aside {
+    float: right;
+    margin: 0;
+    text-align: left;
+    width: 40%;
+  }
+  
+  header[role='main'] [class^='icon-'],
+  header[role='main'] [class*=' icon-'] {
+    display: inline;
+  }
+  
+  
+  
+  /*******************************************
+  Skill Sets
+  *******************************************/
+  .skillset {
+    margin: 0 5% 0 0;
+    padding: 0;
+    width: 28.33333333%;
+    float: left;
+  }
+
+  .skillset:nth-child(5) {
+    clear: left;
+  }
+
+  .skillset dt,
+  .skllset dd {
+    float: left;
+    width: 50%;
+  }
+}

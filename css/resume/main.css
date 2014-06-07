@@ -1,0 +1,187 @@
+/*******************************************
+Fonts
+*******************************************/
+@font-face {
+	font-family: 'icomoon';
+	src:url('../../fonts/icomoon.eot?-x9jurs');
+	src:url('../../fonts/icomoon.eot?#iefix-x9jurs') format('embedded-opentype'),
+		url('../../fonts/icomoon.woff?-x9jurs') format('woff'),
+		url('../../fonts/icomoon.ttf?-x9jurs') format('truetype'),
+		url('../../fonts/icomoon.svg?-x9jurs#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  color: #858585;
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+  padding-right: 10px;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tweet:before {
+	content: "\74";
+}
+.icon-email:before {
+	content: "\65";
+}
+.icon-phone:before {
+	content: "\70";
+}
+.icon-web:before {
+	content: "\62";
+}
+
+
+
+/*******************************************
+Common Styles
+*******************************************/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  padding: 30px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: ' ';
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 100;
+}
+
+h3 em {
+  display: block;
+  font-size: 0.95rem;
+}
+
+p, ul, dl {
+  font-size: 0.9rem;
+}
+
+a {
+  color: #67bcdb;
+  text-decoration: none;
+}
+
+table td:first-child {
+  width: 20%;
+}
+
+/*******************************************
+Main Header
+*******************************************/
+header[role='main'] {  
+  border-bottom: 1px solid #d5d5d5;
+  line-height: 1;
+  position: relative;
+  padding-bottom: 60px;
+  margin-bottom: 60px;
+}
+
+header[role='main'] h1 {
+  font-size: 50px;
+  font-weight: 100;
+  letter-spacing: 3px;
+  margin: 0;
+  text-align: center;
+}
+
+header[role='main'] aside {
+  margin: 60px 0 0;
+  text-align: center;
+}
+
+header[role='main'] [class^='icon-'],
+header[role='main'] [class*=' icon-'] {
+  display: none;
+}
+
+
+
+/*******************************************
+Contact Information
+*******************************************/
+.contact-info {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.contact-info li {
+  line-height: 1.8;
+}
+
+
+
+/*******************************************
+Resume Sections
+*******************************************/
+body > section {
+  border-bottom: 1px solid #d5d5d5;
+  padding-bottom: 60px;
+  margin-bottom: 60px;
+}
+
+
+
+/*******************************************
+Skill Sets
+*******************************************/
+.skillset {
+  margin: 0;
+  padding: 0;
+}
+
+.skillset dt,
+.skllset dd {
+  float: left;
+  width: 50%;
+}
+
+.skillset dt:nth-of-type(even),
+.skillset dd:nth-of-type(even) {
+  background-color: #f5f5f5;
+}
+
+.skillset dt {
+  clear: both;
+}
+
+.skillset dd {
+  color: #858585;
+  font-style: italic;
+  text-align: right;
+}
+
+.skillset ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
