@@ -1,0 +1,203 @@
+---
+layout: default
+title: Creating a Tag with HTML and CSS
+tags:
+  ["articles", "howto", "html", "css", "fun"]
+blurb: The other day I saw a site that had a tagging system for the posts. Each "tag" was styled to look like an actual tag. Wanting to see how they did it, I opened up the developer console and saw they were using images. What?! This is 2014! We don't need no stinkin' images!
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+<style>
+.tag {
+  background: #f0f0f0;
+  border: 1px solid #9f9f9f;
+  border-left: none;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 #fff,
+              0 1px 2px #ccc;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 11px;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 15px;
+  padding: 0 8px 0 10px;
+  position: relative;
+}
+
+.tag i {
+  font-style: normal;
+  letter-spacing: 0.1rem;
+}
+
+.tag:before,
+.tag:after,
+.tag i:before,
+.tag i:after {
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+.tag:before {
+  border: 8px solid;
+  border-width: 9px 10px 9px 10px;
+  border-color: transparent #9f9f9f transparent transparent;
+  height: 2px;
+  top: -1px; left: -20px;
+}
+
+.tag:after {
+  border: 1px solid #f0f0f0;
+  border-color: transparent #f0f0f0 transparent transparent;
+  border-width: 8px 10px 8px 10px;
+  top: 1px; left: -20px;
+}
+
+.tag i:before {
+  background: #fff;
+  border: 1px solid #666;
+  border-radius: 100%;
+  box-shadow: 0 1px 0 #fff;
+  height: 4px; width: 4px;
+  left: -2px; top: 6px;
+  z-index: 99;
+}
+
+.tag i:after {
+  background: #333;
+  border: 1px solid #333;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 #ddd,
+              1px 1px 2px #aaa;
+  width: 6px;
+  right: -5px; top: 1px; bottom: 1px;
+  z-index: -1;
+}
+
+</style>
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    Before we get into code, here's what we are going for: 
+    <span class='tag'><i>Ruby</i></span>
+    <span class='tag'><i>Rails</i></span>
+    <span class='tag'><i>Other Stuff</i></span>
+  </p>
+  
+  <p>
+    First things first, we need to create the HTML for our little tag. Since I would like
+    this to be as semantic as possible, we will be using <code>span</code> tags for each
+    tag. This will allow us to display them inline, one right after the other.
+  </p>
+  
+  {% highlight html %}
+<span class='tag'>Tag 1<span>
+<span class='tag'>Tag 2</span>{% endhighlight %}
+  
+  <p>
+    In order to achieve the look of our tag, we will need to add another HTML element to
+    the mix. The reason for this is that each HTML element can have 2 additional elements
+    added using the <code>:before</code> and <code>:after</code> pseudo elements. To achieve
+    the look we are going for, we will need 4 additional elements; 2 for the point on the
+    left of our tag, 1 for the hole, and 1 for the back bit that is on the right side of
+    the tag. I am choosing to use the <code>i</code> element. This isn't semantic, but it's
+    a necessary evil to avoid using images.
+  </p>
+  
+  {% highlight html %}
+<span class='tag'><i>Tag 1</i><span>
+<span class='tag'><i>Tag 2</i></span>{% endhighlight %}
+  
+  <p>
+    Now we need to sprinkle in some styling for tag element. Below, you will find all of
+    the CSS needed to get the desired affect. I have added comments to the code so you
+    can see what each bit does.
+  </p>
+  
+  {% highlight css %}
+/* The base styling for our tag */
+.tag {
+  background: #f0f0f0;
+  border: 1px solid #9f9f9f;
+  border-left: none;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 #fff,
+              0 1px 2px #ccc;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 11px;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 15px;
+  padding: 0 8px 0 10px;
+  position: relative;
+}
+
+/*
+  Remove the default style for the `i` element and add a little breathing room
+  between the letters.
+*/
+.tag i {
+  font-style: normal;
+  letter-spacing: 0.1rem;
+}
+
+/* Set the defaults for our pseudo elements */
+.tag:before,
+.tag:after,
+.tag i:before,
+.tag i:after {
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+/* Creates the "border" of our left point */
+.tag:before {
+  border: 8px solid;
+  border-width: 9px 10px 9px 10px;
+  border-color: transparent #9f9f9f transparent transparent;
+  height: 2px;
+  top: -1px; left: -20px;
+}
+
+/* Creates the background of our left point */
+.tag:after {
+  border: 1px solid #f0f0f0;
+  border-color: transparent #f0f0f0 transparent transparent;
+  border-width: 8px 10px 8px 10px;
+  top: 1px; left: -20px;
+}
+
+/* Creates the hole for the tag */
+.tag i:before {
+  background: #fff;
+  border: 1px solid #666;
+  border-radius: 100%;
+  box-shadow: 0 1px 0 #fff;
+  height: 4px; width: 4px;
+  left: -2px; top: 6px;
+  z-index: 99;
+}
+
+/* Creates the little dark bit on the right of the tag */
+.tag i:after {
+  background: #333;
+  border: 1px solid #333;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 #ddd,
+              1px 1px 2px #aaa;
+  width: 6px;
+  right: -5px; top: 1px; bottom: 1px;
+  z-index: -1;
+}{% endhighlight %}
+
+  <p>
+    There you have it. With just a little bit of HTML and CSS, we can simulate a pretty
+    decent looking "tag".
+  </p>
+</article>
