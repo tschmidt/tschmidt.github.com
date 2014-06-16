@@ -3,10 +3,12 @@ require 'coderay'
 
 class AwesomeCodeblock < Liquid::Block
   
-  attr_accessor :title, :language, :markup, :options, :code
+  attr_accessor :title, :language, :markup, :options, :code, :td_line_numbers, :td_code_lines
   
   def initialize(tag_name, markup, tokens)
     @markup = markup
+    @td_line_numbers = []
+    @td_code_lines = []
     super
   end
   
@@ -39,21 +41,23 @@ class AwesomeCodeblock < Liquid::Block
   end
   
   def tableized_code(code)
-    lines = ''
-    wrapped_code = ''
     code.strip.split("\n").each_with_index do |line, index|
       index += starting_line_number
       line = line.empty? ? "&nbsp" : CodeRay.scan(line, language.to_sym).html
-      lines        += %Q[<div class="line-number#{' highlight' if lines_to_highlight && lines_to_highlight.include?(index)}">#{index}</div>]
-      wrapped_code += %Q[<div class="code-part#{' highlight' if lines_to_highlight && lines_to_highlight.include?(index)}">#{line}</div>]
+      td_line_numbers << %Q[<td class="gutter line-number#{' highlight' if lines_to_highlight && lines_to_highlight.include?(index)}">#{index}</td>]
+      td_code_lines << %Q[<td class="code-part#{' highlight' if lines_to_highlight && lines_to_highlight.include?(index)}"><pre>#{line}</pre></td>]
     end
-    tr_str do
-      ''.tap do |str|
-        str << %Q[<td class="gutter">#{lines}</td>] if show_line_numbers?
-        str << %Q[<td class="lines-of-code"><pre>#{wrapped_code}</pre></td>]
-        str
+    output = ''
+    td_line_numbers.zip(td_code_lines).each do |line, code|
+      output += tr_str do
+        ''.tap do |str|
+          str << line if show_line_numbers?
+          str << code
+          str
+        end
       end
     end
+    output
   end
   
   def tr_str

@@ -230,12 +230,30 @@ footer[role='main'] a:hover {
 
 
 
-/************************************
-CodeRay
-************************************/
+figure.code {
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  margin: 30px 20px;
+  border-radius: 2px;
+}
+
+figure.code figcaption {
+  background: #f5f5f5;
+  border-bottom: 1px solid #d5d5d5;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/*****************************************
+  Coderay Github Theme
+*****************************************/
 
 .CodeRay {
   font-family: Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+}
+
+.CodeRay table {
+  width: 100%;
 }
 
 .CodeRay .debug { color:white ! important; background:blue ! important; }
@@ -330,26 +348,6 @@ CodeRay
 .CodeRay .change .change { color: #66f; }
 .CodeRay .head .head { color: #f4f; }
 
-figure.code {
-  background: #fff;
-  border: 1px solid #d5d5d5;
-  margin: 30px 0;
-  padding: 0;
-  border-radius: 2px;
-  width: 100%;
-}
-
-figure.code figcaption {
-  background: #f5f5f5;
-  border-bottom: 1px solid #d5d5d5;
-  padding: 10px 0;
-  text-align: center;
-}
-
-.CodeRay table {
-  width: 100%;
-}
-
 .CodeRay pre,
 .CodeRay td.gutter,
 .CodeRay td.lines-of-code {
@@ -365,21 +363,21 @@ figure.code figcaption {
   width: 50px;
 }
 
-.CodeRay td.gutter div,
-.CodeRay td.lines-of-code div {
+.CodeRay td.gutter,
+.CodeRay td.lines-of-code {
   padding: 3px 7px;
 }
 
-.CodeRay td.lines-of-code div {
+.CodeRay td.lines-of-code {
   padding-left: 10px;
 }
 
-.CodeRay td.gutter div:nth-child(1),
-.CodeRay td.lines-of-code div:nth-child(1) {
+.CodeRay td.gutter:nth-child(1),
+.CodeRay td.lines-of-code:nth-child(1) {
   padding-top: 10px;
 }
 
-.CodeRay td.gutter .highlight,
-.CodeRay td.lines-of-code .highlight {
+.CodeRay td.gutter.highlight,
+.CodeRay td.code-part.highlight {
   background: #d5ffd5;
 }
