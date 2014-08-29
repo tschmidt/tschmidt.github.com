@@ -1,0 +1,100 @@
+---
+layout: default
+title: How I Test (For Now)
+tags:
+  ["articles", "testing", "development"]
+blurb: I had the opportunity to interview with Thoughtbot a few weeks ago, and the question of how I test came up. I hadn't really thought about it until then and it is something I've been thinking about lately.
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    When I first learned to write tests, I was very unsure of how, where, when and what to
+    test. I, like many people just getting into testing, went overboard. I wanted to be a
+    good little TDD soldier, and as a result, I tested all the things.
+  </p>
+  
+  <p>
+    That quickly led to frustration. I didn't have the vocabulary back then to explain
+    why it was frustrating, but I knew there had to be a better way.
+  </p>
+  
+  <p>
+    I started reading a lot of articles and posts about testing. Watching videos of others
+    testing. Reading through tests of projects that were well received by the community.
+  </p>
+  
+  <p>
+    Slowly, I started adopting common patterns that I saw. The biggest one, and the one
+    that I think every developer who is just getting into testing should know, is this:
+    <strong>You do not need to test everything</strong>.
+  </p>
+  
+  <p>
+    That's right. I said it.
+  </p>
+  
+  <p>
+    I used to get tripped up by this all the time. I became almost obsessive trying to get
+    to 100% code coverage. The reality is, it's just not necessary.
+  </p>
+  
+  <p>
+    Once I embraced this idea, I started to think about how I was testing. I used to start
+    with Unit tests. Then, I would test just the controller. Then, I would move onto 
+    integration tests. This - based on my very loose interpretation - is referred to as inside-out
+    testing.
+  </p>
+  
+  <p>
+    IMHO, this approach places me, the developer, as the primary
+    audience of the product I'm working. In reality, I am not the primary audience. The
+    consumer, client, customer, student, whatever is the primary audience. They don't
+    care that the class Lollipop has a method called "how_many_licks?". They just want to
+    know when they click this thing on the screen that it will do what it's supposed to.
+  </p>
+  
+  <p>
+    This realization has led me to adopt more of an outside-in approach.
+  </p>
+  
+  <p>
+    I now begin with a feature spec. This is a high-level test that describes what actions
+    a user takes to accomplish some task. The test ensures that the expected result is
+    achieved.
+  </p>
+  
+  <p>
+    As soon as I get to a point where the feature spec is not giving me feedback that moves
+    me forward in my code, I will drop down to a lower level test. In most cases, the 
+    feature spec is adequate and I don't need to do that.
+  </p>
+  
+  <p>
+    Another reason for doing a lower level test is if there is a particularly complicated
+    method I am working on. I like having the assurance of a test, especially when I begin
+    the refactoring phase.
+  </p>
+  
+  <p>
+    The final thing that I will share is that I never test private or protected methods.
+    For me, a test suite should be documentation about your public API. Methods that other
+    developers are free to use should be shown in the test suite. Having tests for 
+    private or protected methods will just lead to confusion when another developer tries
+    to use those methods.
+  </p>
+  
+  <p>
+    This is a topic that I could talk about forever, unfortunately, a blog article isn't
+    necessarily the best medium. I may expand on this topic with a video of how I test
+    later, but for now, I believe I've shared my core opinions on testing.
+  </p>
+  
+  <p>
+    What about you? How do you test? What tips or techniques can you share?
+  </p>
+</article>
