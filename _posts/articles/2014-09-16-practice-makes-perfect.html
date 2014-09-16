@@ -1,0 +1,141 @@
+---
+layout: default
+title: What if learning web design were approached like learning to play the piano?
+tags:
+  ["articles", "learning", "things to think about"]
+blurb: In almost every other discipline, learning is done by repetition. You are taught a basic technique and then you practice, practice, practice until you're ready for the next lesson. What if we taught web design in the same way?
+published: true
+categories:
+  ["articles"]
+comments: true
+---
+<article>
+  {% include page_header.html %}
+  
+  <p>
+    So, here's the thing. Typically when I see web design taught, it goes a little something
+    like this: a mockup of the finished site it shown, then the student is walked through
+    the HTML, the CSS is applied, and then you may finish up with some JavaScript. In fact,
+    I've created a training program exactly like this.
+  </p>
+  
+  <p>
+    The thing about this approach is that the retention of information
+    is really, really low. Even having a single day in between lessons, the student will
+    often times need to have a refresher of what they learned previously.
+  </p>
+  
+  <p>
+    I've started thinking about how teaching web design could be changed to increase what
+    students remember, but also finding a way to build skills that is engaging. How would
+    the curriculum look? How would a student progress from basics to more advanced
+    techniques?
+  </p>
+  
+  <p>
+    One idea that I've been playing around with is to start the student off with a very
+    simple task. Create 3 squares stacked on top of each other like the following example.
+  </p>
+  
+  <style type="text/css" media="screen">
+  .example {
+    border: 1px solid #cacac9;
+    border-radius: 2px/3px;
+    padding: 20px;
+    min-height: 20px;
+    overflow: auto;
+  }
+  
+  .box-container {
+    position: relative;
+    height: 90px;
+    width: 100%;
+  }
+  
+  .box1, .box2, .box3 {
+    width: 90px; height: 90px;
+    background-color: silver;
+    position: absolute;
+  }
+  
+  .box1 {
+    background-color: green;
+    top: 0; left: 0;
+  }
+  
+  .box2 {
+    width: 70px; height: 70px;
+    background-color: blue;
+    top: 10px; left: 10px;
+  }
+  
+  .box3 {
+    width: 50px; height: 50px;
+    background-color: red;
+    top: 20px; left: 20px;
+  }
+  </style>
+  
+  <div class='example'>
+    <div class='box-container'>
+      <div class='box1'></div>
+      <div class='box2'></div>
+      <div class='box3'></div>
+    </div>
+  </div>
+  
+  <p>
+    The example would start with 3 separate DOM elements and the student would be walked
+    through the full HTML and CSS for this one example. Then, the student would be 
+    instructed to replicate this exact example a few times from scratch with the full
+    example visible but not being allowed to copy-and-paste. They would need to retype
+    it from scratch each time.
+  </p>
+  
+  <p>
+    After the student has completed the example a few times with the full example visible,
+    they would be asked to complete the same exact example, but this time, the final
+    result would not be shown. This will force them to think through the example on their
+    own, having to recall the HTML and CSS. They would need to
+    recreate the example several times in this way before moving onto the next lesson.
+  </p>
+  
+  <p>
+    Now, obviously, this is a very simple example and would need to be fleshed out for a
+    full on course. The thing about this approach is that it more closely resembles how we
+    teach other skills.
+  </p>
+  
+  <p>
+    Take, for example, playing the piano. You don't start out by seeing a finished piece,
+    walked through what the notes mean and how you play them on the keyboard and then 
+    when you're done, expected to know how to play it. Instead, you are often not
+    even shown any sheet music in the beginning. You are shown how to rest your hands on
+    the piano. Then, starting with one hand or the other, you are shown a
+    small scale. You then have to repeat that scale over-and-over-and-over. Once you have
+    developed the muscle memory to continue, you are shown a more advanced scale.
+  </p>
+  
+  <p>
+    Later, you are introduced to playing with both hands. Then you learn to read sheet music.
+    Then you are shown how to put all of that together.
+  </p>
+  
+  <p>
+    Or take art. You don't start with being shown a finished painting or drawing and then
+    walked through how to recreate it. Rather, you start by making lines, and swirls, and
+    squiggles. Then you move onto basic shapes like circles and squares. Then shading
+    is introduced and you are taught how to create 3 dimensional spheres and blocks.
+    You continue to build on these techniques until you are finally creating something
+    that resembles a portrait or landscape.
+  </p>
+  
+  <p>
+    So, why do we approach web design so differently? What would it look like if we
+    approached teaching web design from a completely different angle?
+  </p>
+  
+  <p>
+    I really want to explore this idea more and would love to hear what you think.
+  </p>
+</article>
